@@ -48,4 +48,14 @@ public class UserController {
 		status.setComplete();
 		return "login";
 	}
+	
+	@RequestMapping(value="/login", method=RequestMethod.GET)
+	public String login() {
+		return "login";
+	}
+	
+	@RequestMapping(value="/loggedin", method=RequestMethod.GET)
+	public String loggedin() {
+		return "loggedin";
+	}
 }

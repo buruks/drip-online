@@ -45,12 +45,12 @@ public class DataConfig {
 	@Bean 
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-		em.setPersistenceUnitName("drip");
+		//em.setPersistenceUnitName("hibernatePersistenceUnit");
 		em.setDataSource(dataSource());
+		em.setPackagesToScan("org.drip");
 		
 		HibernateJpaVendorAdapter vendor = new HibernateJpaVendorAdapter();
 		vendor.setShowSql(env.getRequiredProperty("jpa.showSql", Boolean.class));
-		vendor.setDatabasePlatform(env.getRequiredProperty("jpa.database"));
 		em.setJpaVendorAdapter(vendor);
 		
 		return em;
