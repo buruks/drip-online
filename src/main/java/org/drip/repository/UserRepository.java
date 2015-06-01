@@ -11,6 +11,6 @@ public interface UserRepository extends CrudRepository<User, Long> {
 	
 	User findByBusinessNameAndPhoneNumberAndZipCode(String businessName, String phoneNumber, String zipCode);
 	
-	User findByUsername(String username);
+	User findByEmail(String email);
 	
 }

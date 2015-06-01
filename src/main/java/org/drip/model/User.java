@@ -30,9 +30,9 @@ public class User {
 	private String zipCode;
 	@Column(name="phone_number")
 	private String phoneNumber;
-	private String email;
 	
-	private String username;
+	@Column(unique=true)
+	private String email;
 	private String password;
 	
 	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.EAGER)
@@ -48,7 +48,6 @@ public class User {
 		this.lastName = user.lastName;
 		this.businessName = user.businessName;
 		this.email = user.email;
-		this.username = user.username;
 		this.password = user.password;
 		this.roles = user.roles;
 	}
@@ -110,14 +109,6 @@ public class User {
     	this.email = email;
     }
 	
-    public String getUsername() {
-    	return username;
-    }
-	
-    public void setUsername(String username) {
-    	this.username = username;
-    }
-	
     public String getPassword() {
     	return password;
     }
@@ -129,7 +120,6 @@ public class User {
     public List<Role> getRoles() {
     	return roles;
     }
-
 	
     public void setRoles(List<Role> authorities) {
     	this.roles = authorities;

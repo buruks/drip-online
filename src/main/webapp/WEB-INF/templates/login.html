@@ -1,27 +1,113 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
-  <head>
-    <title tiles:fragment="title">Messages : Create</title>
-  </head>
-  <body>
-    <div tiles:fragment="content">
-        <form name="f" th:action="@{/login}" method="post">               
-            <fieldset>
-                <legend>Please Login</legend>
-                <div th:if="${param.error}" class="alert alert-error">    
-                    Invalid username and password.
-                </div>
-                <div th:if="${param.logout}" class="alert alert-success"> 
-                    You have been logged out.
-                </div>
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username"/>        
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password"/>    
-                <div class="form-actions">
-                    <button type="submit" class="btn">Log in</button>
-                </div>
-            </fieldset>
-        </form>
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8" />
+    <title>Color Admin | Login Page</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    
+    <!-- ================== BEGIN BASE CSS STYLE ================== -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <link href="assets/plugins/jquery-ui/themes/base/minified/jquery-ui.min.css" rel="stylesheet" />
+    <link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="assets/css/animate.min.css" rel="stylesheet" />
+    <link href="assets/css/style.css" rel="stylesheet" />
+    <link href="assets/css/style-responsive.min.css" rel="stylesheet" />
+    <link href="assets/css/theme/default.css" rel="stylesheet" id="theme" />
+    <!-- ================== END BASE CSS STYLE ================== -->
+    
+    <!-- ================== BEGIN BASE JS ================== -->
+    <script src="assets/plugins/pace/pace.min.js"></script>
+    <!-- ================== END BASE JS ================== -->
+</head>
+<body class="pace-top">
+    <!-- begin #page-loader -->
+    <div id="page-loader" class="fade in"><span class="spinner"></span></div>
+    <!-- end #page-loader -->
+    
+    <div class="login-cover">
+        <div class="login-cover-image"><img src="assets/img/login-bg/bg-3.jpg" alt="" /></div>
+        <div class="login-cover-bg"></div>
     </div>
-  </body>
+    <!-- begin #page-container -->
+    <div id="page-container" class="fade">
+        <!-- begin login -->
+        <div class="login login-v2" data-pageload-addclass="animated fadeIn">
+            <!-- begin brand -->
+            <div class="login-header">
+                <div class="icon pull-left">
+                    <img src="assets\img\logo\nwcwd_sm_clr.gif" width="170" height="120"/>
+                </div>
+
+                <div class="brand pull-left">
+                    <strong class="company">North Weld County Water District</strong>
+                    <small><strong>PO Box: </strong> 56 Lucerne, CO 80646</small>
+                    <small><strong>Phone: </strong> 970.356.3020 <strong> Fax: </strong> 970.395.0997 </small>
+                    <small><strong>E-mail: </strong> water@nwcwd.org</small>
+                    <small class="motto">Serving it's customers in Northern Weld and Eastern Larimer Counties since 1962</small>
+                </div>
+                <span class="clear"></span>
+            </div>
+            <!-- end brand -->
+            <div class="login-content">
+                <form th:action="@{/login}" method="POST" class="margin-bottom-0">
+                    <div class="form-group m-b-20">
+                        <input type="text" id="username" name="username" class="form-control input-lg" placeholder="Email Address" required="required" />
+                    </div>
+                    <div class="form-group m-b-20">
+                        <input type="password" id="password" name="password" class="form-control input-lg" placeholder="Password" required="required" />
+                    </div>
+                    <div class="checkbox m-b-20">
+                        <label>
+                            <input type="checkbox" /> Remember Me
+                        </label>
+                        <span class="pull-right"><a href="forgot_password.html">Forgot password</a></span>
+                    </div>
+                    <div class="login-buttons">
+                        <button type="submit" class="btn btn-success btn-block btn-md">
+                            Sign in
+                        </button>
+                    </div>
+                    <div class="m-t-20">
+                        Not a member yet? Click <a href="#">here</a> to register.
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- end login -->
+        
+    </div>
+    <!-- end page container -->
+    
+    <!-- ================== BEGIN BASE JS ================== -->
+    <script src="assets/plugins/jquery/jquery-1.9.1.min.js"></script>
+    <script src="assets/plugins/jquery/jquery-migrate-1.1.0.min.js"></script>
+    <script src="assets/plugins/jquery-ui/ui/minified/jquery-ui.min.js"></script>
+    <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <!--[if lt IE 9]>
+        <script src="assets/crossbrowserjs/html5shiv.js"></script>
+        <script src="assets/crossbrowserjs/respond.min.js"></script>
+        <script src="assets/crossbrowserjs/excanvas.min.js"></script>
+    <![endif]-->
+    <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="assets/plugins/jquery-cookie/jquery.cookie.js"></script>
+    <!-- ================== END BASE JS ================== -->
+    
+    <!-- ================== BEGIN PAGE LEVEL JS ================== -->
+    <script src="assets/js/login-v2.demo.min.js"></script>
+    <script src="assets/js/apps.min.js"></script>
+    <!-- ================== END PAGE LEVEL JS ================== -->
+
+    <script>
+        $(document).ready(function() {
+            App.init();
+            LoginV2.init();
+        });
+    </script>
+</body>
 </html>
