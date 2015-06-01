@@ -45,7 +45,6 @@ public class DataConfig {
 	@Bean 
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-		//em.setPersistenceUnitName("hibernatePersistenceUnit");
 		em.setDataSource(dataSource());
 		em.setPackagesToScan("org.drip");
 		
