@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="users")
@@ -28,12 +29,16 @@ public class User {
 	
 	@Column(name="zip_code")
 	private String zipCode;
+	@Column(name="area_code")
+	private String areaCode;
 	@Column(name="phone_number")
 	private String phoneNumber;
 	
 	@Column(unique=true)
 	private String email;
 	private String password;
+	@Transient
+	private String confirmPassword;
 	
 	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.EAGER)
 	@JoinColumn(name="user_id")
@@ -100,6 +105,14 @@ public class User {
     public void setPhoneNumber(String phoneNumber) {
     	this.phoneNumber = phoneNumber;
     }
+    
+    public String getAreaCode() {
+    	return areaCode;
+    }
+	
+    public void setAreaCode(String areaCode) {
+    	this.areaCode = areaCode;
+    }
 	
     public String getEmail() {
     	return email;
@@ -116,8 +129,16 @@ public class User {
     public void setPassword(String password) {
     	this.password = password;
     }
+	
+    public String getConfirmPassword() {
+    	return confirmPassword;
+    }
+	
+    public void setConfirmPassword(String confirmPassword) {
+    	this.confirmPassword = confirmPassword;
+    }
 
-    public List<Role> getRoles() {
+	public List<Role> getRoles() {
     	return roles;
     }
 	

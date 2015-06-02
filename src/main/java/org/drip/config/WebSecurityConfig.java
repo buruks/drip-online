@@ -22,7 +22,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.authorizeRequests()
-				.antMatchers("/register", "/confirmUser", "/assets/**").permitAll()
+				.antMatchers("/register", "/assets/**").permitAll()
 				.anyRequest().authenticated()
 				.and()
 			.formLogin()
@@ -36,11 +36,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth, UserDetailsService userDetailsService) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
-		/*auth
-			.jdbcAuthentication()
-				.dataSource(dataSource)
-				.passwordEncoder(new BCryptPasswordEncoder())
-				.authoritiesByUsernameQuery("select u.username, a.authority from users u join authorities a on u.id = a.user_id where u.id = ?");*/
-	}
-	
+	}	
 }
