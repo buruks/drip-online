@@ -1,33 +1,16 @@
 package org.drip.services;
 
+import org.drip.model.DripUser;
 import org.drip.model.User;
-import org.drip.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
 
-@Service
-public class UserService {
+public interface UserService {
 	
-	@Autowired
-	private UserRepository userRepository;
+	public abstract DripUser getUser(String firstName, String lastName, String areaCode, String phoneNumber, String zipCode);
 	
-	public User getUser(String firstName, String lastName, String phoneNumber, String zipCode) {
-		return userRepository.findByFirstNameAndLastNameAndPhoneNumberAndZipCode(firstName, lastName, phoneNumber, zipCode);
-	}
+	public abstract DripUser getUser(String businessName, String areaCode, String phoneNumber, String zipCode);
 	
-	public User getUser(String businessName, String phoneNumber, String zipCode) {
-		return userRepository.findByBusinessNameAndPhoneNumberAndZipCode(businessName, phoneNumber, zipCode);
-	}
+	public abstract User getUser(String email);
 	
-	public User saveUser(User user) {
-		encryptPassword(user);
-		return userRepository.save(user);
-	}
-	
-	private void encryptPassword(User user) {
-		BCryptPasswordEncoder passwordEncorder = new BCryptPasswordEncoder();
-		user.setPassword(passwordEncorder.encode(user.getPassword()));
-	}
+	public abstract User saveUser(User user);
 	
 }
