@@ -22,16 +22,16 @@ public class UserServiceImpl implements UserService {
 	 * @see org.drip.services.IUserService#getUser(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-    public DripUser getUser(String firstName, String lastName, String areaCode, String phoneNumber, String zipCode) {
-		return dripUserRepository.findByFirstNameAndLastNameAndAreaCodeAndPhoneNumberAndZipCode(firstName, lastName, areaCode, phoneNumber, zipCode);
+    public DripUser getUser(String firstName, String lastName, int accountNumber,String areaCode, String phoneNumber, String zipCode) {
+		return dripUserRepository.findByFirstNameAndLastNameAndAccountNumberAndAreaCodeAndPhoneNumberAndZipCode(firstName, lastName, accountNumber, areaCode, phoneNumber, zipCode);
 	}
 	
 	/* (non-Javadoc)
 	 * @see org.drip.services.IUserService#getUser(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-    public DripUser getUser(String businessName, String areaCode, String phoneNumber, String zipCode) {
-		return dripUserRepository.findByBusinessNameAndAreaCodeAndPhoneNumberAndZipCode(businessName, areaCode, phoneNumber, zipCode);
+    public DripUser getUser(String businessName, int accountNumber,String areaCode, String phoneNumber, String zipCode) {
+		return dripUserRepository.findByBusinessNameAndAccountNumberAndAreaCodeAndPhoneNumberAndZipCode(businessName, accountNumber,areaCode, phoneNumber, zipCode);
 	}
 	
 	/* (non-Javadoc)
@@ -57,9 +57,9 @@ public class UserServiceImpl implements UserService {
 	private void updateDripUser(User user) {
 	    DripUser dripUser;
 	    if (!StringUtils.isBlank(user.getFirstName()) && !StringUtils.isBlank(user.getLastName())) {
-	    	dripUser = dripUserRepository.findByFirstNameAndLastNameAndAreaCodeAndPhoneNumberAndZipCode(user.getFirstName(), user.getLastName(), user.getAreaCode(), user.getPhoneNumber(), user.getZipCode());
+	    	dripUser = dripUserRepository.findByFirstNameAndLastNameAndAccountNumberAndAreaCodeAndPhoneNumberAndZipCode(user.getFirstName(), user.getLastName(), user.getAccountNumber(), user.getAreaCode(), user.getPhoneNumber(), user.getZipCode());
 	    } else {
-	    	dripUser = dripUserRepository.findByBusinessNameAndAreaCodeAndPhoneNumberAndZipCode(user.getBusinessName(), user.getAreaCode(), user.getPhoneNumber(), user.getZipCode());
+	    	dripUser = dripUserRepository.findByBusinessNameAndAccountNumberAndAreaCodeAndPhoneNumberAndZipCode(user.getBusinessName(), user.getAccountNumber(), user.getAreaCode(), user.getPhoneNumber(), user.getZipCode());
 	    }
 	    if (dripUser != null) {
 	    	dripUser.setRegistered(true);

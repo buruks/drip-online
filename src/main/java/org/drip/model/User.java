@@ -20,6 +20,10 @@ public class User {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
+	
+	@Column(name="account_number")
+	private int accountNumber; 
+	
 	@Column(name="first_name")
 	private String firstName;
 	@Column(name="last_name")
@@ -49,6 +53,7 @@ public class User {
 
 	public User(User user) {
 		this.id = user.id;
+		this.accountNumber=user.accountNumber;
 		this.firstName = user.firstName;
 		this.lastName = user.lastName;
 		this.businessName = user.businessName;
@@ -65,7 +70,17 @@ public class User {
     public void setId(long id) {
     	this.id = id;
     }
+    
+    public int getAccountNumber()
+    {
+    	return accountNumber;
+    }
 	
+    public void setAccountNumber(int accountNumber)
+    {
+    	this.accountNumber = accountNumber;
+    }
+    
     public String getFirstName() {
     	return firstName;
     }

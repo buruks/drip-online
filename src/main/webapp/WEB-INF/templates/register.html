@@ -61,6 +61,12 @@
 			            	<p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
 			            </div>
 			            <!-- end global errors --> 
+			            <label class="control-label">Account Number</label>
+                         <div class="row m-b-15">
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" th:field="*{accountNumber}" placeholder="Account Number" />
+                            </div>
+                        </div>
                         <label class="control-label">Name</label>
                         <div class="row row-space-10">
                             <div class="col-md-6 m-b-15">
