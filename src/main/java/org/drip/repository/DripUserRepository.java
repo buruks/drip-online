@@ -5,6 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 
 
 public interface DripUserRepository extends CrudRepository<DripUser, Long> {
-	DripUser findByFirstNameAndLastNameAndAreaCodeAndPhoneNumberAndZipCode(String firstName, String lastName, String areaCode,String phoneNumber, String zipCode);	
-	DripUser findByBusinessNameAndAreaCodeAndPhoneNumberAndZipCode(String businessName, String areaCode, String phoneNumber, String zipCode);
+	DripUser findByFirstNameAndLastNameAndAccountNumberAndAreaCodeAndPhoneNumberAndZipCode(String firstName, String lastName, int accountNumber, String areaCode,String phoneNumber, String zipCode);	
+	DripUser findByBusinessNameAndAccountNumberAndAreaCodeAndPhoneNumberAndZipCode(String businessName, int accountNumber, String areaCode, String phoneNumber, String zipCode);
 }

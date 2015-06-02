@@ -16,6 +16,8 @@ public class DripUser {
 	private String lastName;
 	@Column(name="business_name")
 	private String businessName;
+	@Column(name="account_number")
+	private int accountNumber;
 	@Column(name="phone_number")
 	private String phoneNumber;
 	@Column(name="area_code")
@@ -53,6 +55,14 @@ public class DripUser {
 	
     public void setBusinessName(String businessName) {
     	this.businessName = businessName;
+    }
+	
+    public int getAccountNumber() {
+    	return accountNumber;
+    }
+	
+    public void setAccountNumber(int accountNumber) {
+    	this.accountNumber = accountNumber;
     }
 	
     public String getPhoneNumber() {
