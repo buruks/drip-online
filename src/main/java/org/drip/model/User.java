@@ -21,6 +21,7 @@ public class User {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="user_id")
 	private long id;
+	
 	@Column(name="first_name")
 	private String firstName;
 	@Column(name="last_name")
@@ -40,6 +41,9 @@ public class User {
 	private String password;
 	@Transient
 	private String confirmPassword;
+
+	@Transient
+	private String accountNumber; 
 
 	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.EAGER)
 	@JoinColumn(name="user_id")
@@ -70,7 +74,8 @@ public class User {
     public void setId(long id) {
     	this.id = id;
     }
-	
+ 
+    
     public String getFirstName() {
     	return firstName;
     }
@@ -141,6 +146,14 @@ public class User {
 	
     public void setConfirmPassword(String confirmPassword) {
     	this.confirmPassword = confirmPassword;
+    }
+    
+    public String getAccountNumber() {
+    	return accountNumber;
+    }
+	
+    public void setAccountNumber(String accountNumber) {
+    	this.accountNumber = accountNumber;
     }
 
 	public List<Role> getRoles() {

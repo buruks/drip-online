@@ -25,16 +25,16 @@ public class UserServiceImpl implements UserService {
 	 * @see org.drip.services.IUserService#getUser(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-    public DripUser getUser(String firstName, String lastName, String areaCode, String phoneNumber, String zipCode) {
-		return dripUserRepository.findByFirstNameAndLastNameAndAreaCodeAndPhoneNumberAndZipCode(firstName, lastName, areaCode, phoneNumber, zipCode);
+    public DripUser getUser(String firstName, String lastName, String accountNumber, String areaCode, String phoneNumber, String zipCode) {
+		return dripUserRepository.findDripUser(firstName, lastName, accountNumber, phoneNumber, zipCode, areaCode);
 	}
 	
 	/* (non-Javadoc)
 	 * @see org.drip.services.IUserService#getUser(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-    public DripUser getUser(String businessName, String areaCode, String phoneNumber, String zipCode) {
-		return dripUserRepository.findByBusinessNameAndAreaCodeAndPhoneNumberAndZipCode(businessName, areaCode, phoneNumber, zipCode);
+    public DripUser getUser(String businessName, String accountNumber,String areaCode, String phoneNumber, String zipCode) {
+		return dripUserRepository.findDripUser(businessName, accountNumber, areaCode,phoneNumber, zipCode, areaCode);
 	}
 	
 	/* (non-Javadoc)
@@ -58,9 +58,9 @@ public class UserServiceImpl implements UserService {
 	private void updateDripUser(User user) {
 	    DripUser dripUser;
 	    if (!StringUtils.isBlank(user.getFirstName()) && !StringUtils.isBlank(user.getLastName())) {
-	    	dripUser = dripUserRepository.findByFirstNameAndLastNameAndAreaCodeAndPhoneNumberAndZipCode(user.getFirstName(), user.getLastName(), user.getAreaCode(), user.getPhoneNumber(), user.getZipCode());
+	    	dripUser = dripUserRepository.findDripUser(user.getFirstName(), user.getLastName(), user.getAccountNumber(), user.getAreaCode(), user.getPhoneNumber(), user.getZipCode());
 	    } else {
-	    	dripUser = dripUserRepository.findByBusinessNameAndAreaCodeAndPhoneNumberAndZipCode(user.getBusinessName(), user.getAreaCode(), user.getPhoneNumber(), user.getZipCode());
+	    	dripUser = dripUserRepository.findDripUser(user.getBusinessName(), user.getAccountNumber(),user.getAreaCode(), user.getPhoneNumber(), user.getZipCode());
 	    }
 	    if (dripUser != null) {
 	    	dripUser.setRegistered(true);

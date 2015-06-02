@@ -31,6 +31,7 @@ public class UserValidator implements Validator {
 		ValidationUtils.rejectIfEmpty(errors, "phoneNumber", "phonenumber.required");
 		ValidationUtils.rejectIfEmpty(errors, "zipCode", "zipcode.required");
 		ValidationUtils.rejectIfEmpty(errors, "password", "password.required");
+		ValidationUtils.rejectIfEmpty(errors, "accountNumber", "accountnumber.required");
 		User user = (User)obj;
 		if (!StringUtils.isBlank(user.getEmail()) && !isValidEmailAddress(user.getEmail())) {
 			errors.rejectValue("email", "email.invalid");
@@ -42,11 +43,11 @@ public class UserValidator implements Validator {
 			errors.reject("name.required");
 		}
 		if (!StringUtils.isBlank(user.getFirstName()) && !StringUtils.isBlank(user.getLastName())) {
-			DripUser dripUser = userService.getUser(user.getFirstName(), user.getLastName(), user.getAreaCode(), user.getPhoneNumber(), user.getZipCode());
+			DripUser dripUser = userService.getUser(user.getFirstName(), user.getLastName(), user.getAccountNumber(), user.getAreaCode(), user.getPhoneNumber(), user.getZipCode());
 			validateUserWithDripInfo(errors, dripUser);
 		}
 		if (!StringUtils.isBlank(user.getBusinessName())) {
-			DripUser dripUser = userService.getUser(user.getBusinessName(), user.getAreaCode(), user.getPhoneNumber(), user.getZipCode());
+			DripUser dripUser = userService.getUser(user.getBusinessName(), user.getAccountNumber(), user.getAreaCode(), user.getPhoneNumber(), user.getZipCode());
 			validateUserWithDripInfo(errors, dripUser);
 		}
 		if (!StringUtils.isBlank(user.getEmail())) {
