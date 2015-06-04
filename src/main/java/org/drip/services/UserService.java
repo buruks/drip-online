@@ -11,6 +11,8 @@ public interface UserService {
 	
 	public abstract User getUser(String email);
 	
-	public abstract User saveUser(User user);
+	User registerUser(User user);
+	
+	User saveUser(User user);
 	
 }
