@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title th:remove="all">Reset Password</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</head>
+	<body>
+		<p th:text="#{greeting(${user.fullName})}">Hello,</p>
+		<p style="margin-top:20px">You recently requested a password reset.</p>
+		<p>To reset your Drip Online password, please click
+			<a th:href="${resetUrl}">here</a>, or paste the following link into your browser:
+			<br/><span th:text="${resetUrl}"></span></p>
+		<p>The link will expire in 24hrs, so be sure to use it right away</p>
+		<p style="margin-top:20px">Thank you,</p>
+		<p style="margin-top:20px">North Weld County Water District</p>
+		<p style="margin-top:40px;padding-top:10px;padding-left:5px;color:#0066FF;border-top:1px dotted black;">The contents of this e-mail message and any attachments are confidential and are intended solely for addressee. The information
+			may also be legally privileged. This transmission is sent in trust, for the sole purpose of delivery to the intended recipient.
+			If you have received this transmission in error, any use, reproduction or dissemination of this transmission is strictly
+			prohibited. If you are not the intended recipient, please immediately notify the sender by reply e-mail or phone and delete
+			this message and its attachments.</p>
+	</body>
+
+</html>

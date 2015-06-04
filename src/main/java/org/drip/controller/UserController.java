@@ -23,6 +23,11 @@ public class UserController {
 	Validator validator;
 	
 	@RequestMapping(value="/")
+	public String root() {
+		return "redirect:index";
+	}
+	
+	@RequestMapping(value="/index")
 	public String index() {
 		return "index";
 	}
@@ -41,17 +46,12 @@ public class UserController {
 		} else {
 			userService.saveUser(user);
 			model.addAttribute("success", "User details saved!");
-			return "login";
+			return "redirect:login";
 		}		
 	}
 	
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public String login() {
 		return "login";
-	}
-	
-	@RequestMapping(value="/loggedin", method=RequestMethod.GET)
-	public String loggedin() {
-		return "loggedin";
 	}
 }

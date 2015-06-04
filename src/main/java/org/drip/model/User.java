@@ -19,6 +19,7 @@ import javax.persistence.Transient;
 public class User {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="user_id")
 	private long id;
 	@Column(name="first_name")
 	private String firstName;
@@ -39,10 +40,14 @@ public class User {
 	private String password;
 	@Transient
 	private String confirmPassword;
-	
+
 	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.EAGER)
 	@JoinColumn(name="user_id")
 	private List<Role> roles;
+	
+	@OneToMany(cascade={CascadeType.ALL})
+	@JoinColumn(name="user_id")
+	private List<ResetHash> resetHash;
 	
 	public User() {	
 	}    
@@ -144,5 +149,13 @@ public class User {
 	
     public void setRoles(List<Role> authorities) {
     	this.roles = authorities;
+    }
+    
+    public String getFullName() {
+    	return firstName + " " + lastName;
+    }
+    
+    public List<ResetHash> getResetHash() {
+    	return resetHash;
     }
 }
