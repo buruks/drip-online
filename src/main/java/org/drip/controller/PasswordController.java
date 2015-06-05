@@ -50,7 +50,7 @@ public class PasswordController {
 			String resetUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/";
 			try {
 				passwordService.sendResetLink(email, resetUrl);
-				return "redirect:index";
+				return "redirect:/index";
 			} catch (MessagingException ex) {
 				log.error("Error while setting up mail.\n" + ex);
 				result.reject("setup.error");
