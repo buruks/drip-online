@@ -44,7 +44,7 @@ public class UserController {
 		if (result.hasErrors()) {
 			return "register";
 		} else {
-			userService.saveUser(user);
+			userService.registerUser(user);
 			model.addAttribute("success", "User details saved!");
 			return "redirect:login";
 		}		
