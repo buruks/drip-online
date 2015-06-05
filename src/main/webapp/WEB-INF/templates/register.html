@@ -108,7 +108,7 @@
                         <label class="control-label">Password</label>
                         <div class="row m-b-15">
                             <div class="col-md-12">
-                                <input type="text" class="form-control" th:field="*{password}" placeholder="Password" />
+                                <input type="password" class="form-control" th:field="*{password}" placeholder="Password" />
                                 <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
                             </div>
                         </div>
@@ -116,7 +116,7 @@
                         <label class="control-label">Confirm Password</label>
                         <div class="row m-b-15">
                             <div class="col-md-12">
-                                <input type="text" class="form-control" th:field="*{confirmPassword}" placeholder="Password" />
+                                <input type="password" class="form-control" th:field="*{confirmPassword}" placeholder="Password" />
                             </div>
                         </div>
                         
