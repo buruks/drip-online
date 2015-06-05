@@ -1,8 +1,15 @@
 package org.drip.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -22,6 +29,11 @@ public class DripUser {
 	private String areaCode;
 	@Column(name="zip_code")
 	private String zipCode;
+		
+	@OneToMany(cascade={CascadeType.ALL})
+	@JoinColumn(name="drip_user_id")
+	private List<AccountNumber> accountNumbers;
+
 	
     public Long getId() {
     	return id;
@@ -55,6 +67,14 @@ public class DripUser {
     	this.businessName = businessName;
     }
 	
+    public List<AccountNumber> getAccountNumber() {
+    	return accountNumbers;
+    }
+	
+    public void setAccountNumber(List<AccountNumber> accountNumbers) {
+    	this.accountNumbers = accountNumbers;
+    }
+   	
     public String getPhoneNumber() {
     	return phoneNumber;
     }

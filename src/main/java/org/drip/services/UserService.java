@@ -5,9 +5,9 @@ import org.drip.model.User;
 
 public interface UserService {
 	
-	public abstract DripUser getUser(String firstName, String lastName, String areaCode, String phoneNumber, String zipCode);
+	public abstract DripUser getUser(String firstName, String lastName, String accountNumber,String areaCode, String phoneNumber, String zipCode);
 	
-	public abstract DripUser getUser(String businessName, String areaCode, String phoneNumber, String zipCode);
+	public abstract DripUser getUser(String businessName, String accountNumber,String areaCode, String phoneNumber, String zipCode);
 	
 	public abstract User getUser(String email);
 	
