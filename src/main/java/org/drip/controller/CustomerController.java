@@ -1,7 +1,6 @@
 package org.drip.controller;
 
-import org.drip.model.User;
-import org.drip.services.UserService;
+import org.drip.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -13,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class UserController {
+public class CustomerController {
 	
 	@Autowired
-	UserService userService;
+	CustomerService customerService;
 	
 	@Autowired
-	@Qualifier("userValidator")
+	@Qualifier("webUserValidator")
 	Validator validator;
 	
 	@RequestMapping(value="/")
@@ -34,17 +33,17 @@ public class UserController {
 	
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String registerUser(Model model) {
-		model.addAttribute("user", new User());
+		model.addAttribute("user", new WebUser());
 		return "register";
 	}
 	
 	@RequestMapping(value="/register", method=RequestMethod.POST)
-	public String saveUser(@ModelAttribute("user") User user, BindingResult result, Model model) {
-		validator.validate(user, result);
+	public String saveUser(@ModelAttribute("user") WebUser webUser, BindingResult result, Model model) {
+		validator.validate(webUser, result);
 		if (result.hasErrors()) {
 			return "register";
 		} else {
-			userService.registerUser(user);
+			customerService.saveCustomer(webUser);
 			model.addAttribute("success", "User details saved!");
 			return "redirect:login";
 		}		

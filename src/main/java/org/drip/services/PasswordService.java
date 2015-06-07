@@ -10,5 +10,4 @@ public interface PasswordService {
 	void sendResetLink(String email, String resetUrl) throws MessagingException, MailException;
 	User getUserAssociatedWithHash(String hash);
 	Boolean updatePassword(String username, String newPassword);
-	String encryptPassword(String password);
 }
