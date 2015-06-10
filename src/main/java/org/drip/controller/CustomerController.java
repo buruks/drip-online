@@ -10,6 +10,7 @@ import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class CustomerController {
@@ -38,13 +39,13 @@ public class CustomerController {
 	}
 	
 	@RequestMapping(value="/register", method=RequestMethod.POST)
-	public String saveUser(@ModelAttribute("user") WebUser webUser, BindingResult result, Model model) {
+	public String saveUser(@ModelAttribute("user") WebUser webUser, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
 		validator.validate(webUser, result);
 		if (result.hasErrors()) {
 			return "register";
 		} else {
 			customerService.saveCustomer(webUser);
-			model.addAttribute("success", "User details saved!");
+			redirectAttributes.addAttribute("success", "saved.success");
 			return "redirect:login";
 		}		
 	}
