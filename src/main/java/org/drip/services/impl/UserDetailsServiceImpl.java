@@ -3,9 +3,9 @@ package org.drip.services.impl;
 import java.util.Collection;
 import java.util.List;
 
+import org.drip.model.Customer;
 import org.drip.model.Role;
-import org.drip.model.User;
-import org.drip.repository.UserRepository;
+import org.drip.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -18,23 +18,23 @@ import org.springframework.stereotype.Service;
 public class UserDetailsServiceImpl implements UserDetailsService {
 	
 	@Autowired
-	private UserRepository userRepository;
+	private CustomerRepository customerRepository;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userRepository.findByEmail(username);
-		if (user == null) {
+		Customer customer = customerRepository.findByEmail(username);
+		if (customer == null) {
 			throw new UsernameNotFoundException("Could not find user " + username);
 		}
-		return new CustomUserDetails(user);
+		return new CustomUserDetails(customer);
 	}
 	
-	private final static class CustomUserDetails extends User implements UserDetails {
+	private final static class CustomUserDetails extends Customer implements UserDetails {
 
         private static final long serialVersionUID = 8385297473576148615L;
 
-		private CustomUserDetails(User user) {
-			super(user);
+		private CustomUserDetails(Customer customer) {
+			super(customer);
 		}
 
 		@Override
@@ -59,7 +59,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 		@Override
         public Collection<? extends GrantedAuthority> getAuthorities() {
-			List<Role> authorityCollect = getRoles();
+			List<Role> authorityCollect = getUser().getRoles();
 			String[] authorityArray = new String[authorityCollect.size()];
 			
 			for (int i = 0; i < authorityArray.length; i++) {
@@ -71,6 +71,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		@Override
         public String getUsername() {
 	        return getEmail();
+        }
+
+		@Override
+        public String getPassword() {
+	        return getUser().getPassword();
         }		
 	}
 	

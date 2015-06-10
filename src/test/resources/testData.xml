@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <customers id="1" first_name="John" last_name="Doe" area_code="12345" phone_number="12345678" zip_code="123"/>
+    <customers id="2" business_name="Business" area_code="12345" email="business@test.com" phone_number="123456789" zip_code="1234"/>
+    <account_numbers id="1" account_number="123456" customer_id="1"/>
+    <account_numbers id="2" account_number="123457" customer_id="2"/>
+</dataset>

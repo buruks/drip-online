@@ -4,9 +4,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
-import org.drip.model.DripUser;
-import org.drip.model.User;
-import org.drip.services.UserService;
+import org.drip.controller.WebUser;
+import org.drip.model.Customer;
+import org.drip.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -14,14 +14,14 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 @Component
-public class UserValidator implements Validator {
+public class WebUserValidator implements Validator {
 	
 	@Autowired
-	private UserService userService; 
+	private CustomerService customerService; 
 	
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return User.class.equals(clazz);
+		return WebUser.class.equals(clazz);
 	}
 	
 	@Override
@@ -32,7 +32,7 @@ public class UserValidator implements Validator {
 		ValidationUtils.rejectIfEmpty(errors, "zipCode", "zipcode.required");
 		ValidationUtils.rejectIfEmpty(errors, "password", "password.required");
 		ValidationUtils.rejectIfEmpty(errors, "accountNumber", "accountnumber.required");
-		User user = (User)obj;
+		WebUser user = (WebUser)obj;
 		if (!StringUtils.isBlank(user.getEmail()) && !isValidEmailAddress(user.getEmail())) {
 			errors.rejectValue("email", "email.invalid");
 		}
@@ -43,30 +43,29 @@ public class UserValidator implements Validator {
 			errors.reject("name.required");
 		}
 		if (!StringUtils.isBlank(user.getFirstName()) && !StringUtils.isBlank(user.getLastName())) {
-			DripUser dripUser = userService.getUser(user.getFirstName(), user.getLastName(), user.getAccountNumber(), user.getAreaCode(), user.getPhoneNumber(), user.getZipCode());
-			validateUserWithDripInfo(errors, dripUser);
+			Customer customer = customerService.getCustomer(user.getFirstName(), user.getLastName(), user.getAccountNumber(), user.getAreaCode(), user.getPhoneNumber(), user.getZipCode());
+			validateCustomerInfo(errors, customer);
 		}
 		if (!StringUtils.isBlank(user.getBusinessName())) {
-			DripUser dripUser = userService.getUser(user.getBusinessName(), user.getAccountNumber(), user.getAreaCode(), user.getPhoneNumber(), user.getZipCode());
-			validateUserWithDripInfo(errors, dripUser);
+			Customer customer = customerService.getCustomer(user.getBusinessName(), user.getAccountNumber(), user.getAreaCode(), user.getPhoneNumber(), user.getZipCode());
+			validateCustomerInfo(errors, customer);
 		}
 		if (!StringUtils.isBlank(user.getEmail())) {
-			User onlineUser = userService.getUser(user.getEmail());
-			if (onlineUser != null) {
+			Customer registeredCustomer = customerService.getCustomer(user.getEmail());
+			if (registeredCustomer != null) {
 				errors.rejectValue("email", "email.unique");
 			}
 		}
 	}
-
 	
-    public void setUserService(UserService userService) {
-    	this.userService = userService;
+    public void setUserService(CustomerService userService) {
+    	this.customerService = userService;
     }
 
-	private void validateUserWithDripInfo(Errors errors, DripUser dripUser) {
-	    if (dripUser == null) {
+	private void validateCustomerInfo(Errors errors, Customer customer) {
+	    if (customer == null) {
 	    	errors.reject("registration.details.invalid");
-	    } else if (dripUser.isRegistered()) {
+	    } else if (customer.isRegistered()) {
 	    	errors.reject("registration.already.registered");
 	    }
     }

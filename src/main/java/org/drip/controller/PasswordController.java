@@ -7,7 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import org.drip.ValidationUtils;
 import org.drip.model.User;
 import org.drip.services.PasswordService;
-import org.drip.services.UserService;
+import org.drip.services.CustomerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class PasswordController {
 	PasswordService passwordService;
 	
 	@Autowired
-	UserService userService;
+	CustomerService userService;
 	
 	@RequestMapping(value="/forgot", method=RequestMethod.GET)
 	public String get(Model model) {
@@ -68,7 +68,7 @@ public class PasswordController {
 		//Boolean isAuthenticated = !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);
 		User user = passwordService.getUserAssociatedWithHash(hash);
 		if (user != null) {
-			model.addAttribute("username", user.getEmail());
+			model.addAttribute("username", user.getUsername());
 			return "reset_forgot";
 		} else {
 			return "redirect:/index";

@@ -3,8 +3,8 @@ package org.drip;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.drip.model.User;
-import org.drip.services.UserService;
+import org.drip.model.Customer;
+import org.drip.services.CustomerService;
 import org.springframework.validation.Errors;
 
 
@@ -19,9 +19,9 @@ public class ValidationUtils {
 		}
 	}
 	
-	public static void validateEmailExists(String email, UserService service, Errors errors) {
-		User user = service.getUser(email);
-		if (user == null) {
+	public static void validateEmailExists(String email, CustomerService service, Errors errors) {
+		Customer customer = service.getCustomer(email);
+		if (customer == null) {
 			errors.reject("email.match.error");
 		}
 	}

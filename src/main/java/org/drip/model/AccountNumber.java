@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -20,7 +21,8 @@ public class AccountNumber {
 	private String accountNumber;
 	
 	@ManyToOne
-	private DripUser dripUser;
+	@JoinColumn(name="customer_id")
+	private Customer customer;
 	
 	public int getId() {
 		return id;
@@ -38,11 +40,11 @@ public class AccountNumber {
 		this.accountNumber = accountNumber;
 	}
 	
-	public DripUser getDripUser() {
-		return dripUser;
+	public Customer getDripUser() {
+		return customer;
 	}
 	
-	public void setDripUser(DripUser dripUser) {
-		this.dripUser = dripUser;
+	public void setDripUser(Customer dripUser) {
+		this.customer = dripUser;
 	}
 }
