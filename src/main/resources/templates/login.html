@@ -55,6 +55,9 @@
             </div>
             <!-- end brand -->
             <div class="login-content">
+				<div>
+					<p th:if="${success != null}" th:text="#{(${success})}"></p>
+				</div>
                 <form th:action="@{/login}" method="POST" class="margin-bottom-0">
                     <div class="form-group m-b-20">
                         <input type="text" id="username" name="username" class="form-control input-lg" placeholder="Email Address" required="required" />
