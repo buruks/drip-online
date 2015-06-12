@@ -27,7 +27,7 @@ public class PaymentType {
 	
 	@OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="paymentType")
 	public List<Payment> payment;
-	
+
 	public int getId() {
 		return id;
 	}	
@@ -45,11 +45,9 @@ public class PaymentType {
 	public String getDescription() {
 		return description;
 	}	
-	public void setPaymentTypeDescription(String description) {
-		this.description=description;
-	}	
+	
 	public List<Payment> getPayment() {
 		return payment;
-	}	
-	
+	}
+		
 }

@@ -62,10 +62,10 @@ public class Payment {
 		return updateDate;
 	}	
 	public void setUpdateDate(Date updateDate) {
+
 		this.updateDate=updateDate;
 	}
-	
-	
+
 	public Account getAccount() {
 		return account;
 	}	
@@ -79,5 +79,4 @@ public class Payment {
 	public void setAccount(PaymentType paymentType) {
 		this.paymentType=paymentType;
 	}
-
 }
