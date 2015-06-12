@@ -1,29 +1,31 @@
+//ziptastic provides an API for retrieving city and state using the zipcode, and vice versa
+function getCityAndState(selector,zipCode){
+    var requestURL = 'http://ziptasticapi.com/' + zipCode + '?callback=?';
+
+    $.ajax({
+      url: requestURL,
+      dataType: 'json',
+      success: function (data) {
+        if(data.city){
+            $(selector).html('<span style="color:green;"><strong>'+data.city + ', '+ data.state+'</strong></span>');
+        }else{
+           $(selector).html('<span style="color:red;"><strong>'+data.error+'</strong></span>'); 
+        }
+      }
+    });
+}
+
 $(document).ready(function() {
     $("#zipCode").keyup(function(e){
-        $('.city').text('');
-
+        
         var zipCode = $(this).val();
 
+        $('.city').text('');
+
         if(zipCode.length == 5 && $.isNumeric(zipCode)){
-            var result = getCityAndState(zipCode);
-            $('.city').html(result); 
-            
+            getCityAndState('.city',zipCode);
         }
     })
 });
 
-function getCityAndState(zipCode){
-    var requestURL = 'http://ziptasticapi.com/' + zipCode + '?callback=?';
 
-    var result = '';
-
-    $.getJSON(requestURL, null, function(data){
-        if(data.city){
-            result = '<span style="color:green;">'+data.city + ', '+ data.state+'</span>';
-        }else{
-           result = '<span style="color:red;">'+data.error+'</span>'; 
-        }
-    })
-
-    return result;
-}
