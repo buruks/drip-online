@@ -43,7 +43,7 @@ public class Customer {
 	private String zipCode;
 	
 	@OneToMany(cascade = { CascadeType.ALL }, mappedBy = "customer")
-	private List<AccountNumber> accountNumbers;
+	private List<Account> accounts;
 	
 	private Boolean registered;
 	
@@ -55,7 +55,7 @@ public class Customer {
 	}
 	
 	public Customer(Customer customer) {
-		this.accountNumbers = customer.getAccountNumbers();
+		this.accounts = customer.getAccounts();
 		this.areaCode = customer.getAreaCode();
 		this.businessName = customer.getBusinessName();
 		this.email = customer.getEmail();
@@ -140,8 +140,8 @@ public class Customer {
 		this.areaCode = areaCode;
 	}
 	
-	public List<AccountNumber> getAccountNumbers() {
-		return accountNumbers;
+	public List<Account> getAccounts() {
+		return accounts;
 	}
 	
 	public User getUser() {

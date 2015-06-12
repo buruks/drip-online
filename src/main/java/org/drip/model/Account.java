@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "account_numbers")
-public class AccountNumber {
+public class Account {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,11 +40,11 @@ public class AccountNumber {
 		this.accountNumber = accountNumber;
 	}
 	
-	public Customer getDripUser() {
+	public Customer getCustomer() {
 		return customer;
 	}
 	
-	public void setDripUser(Customer dripUser) {
-		this.customer = dripUser;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 }
