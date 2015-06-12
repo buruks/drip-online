@@ -21,21 +21,22 @@ public class AccountServiceImpl implements AccountService {
 	PaymentRepository paymentRepository;
 	
 	@Override
-	public Account getAccount(int customerId) {
-		Account account = accountRepository.findByCustomerId(customerId);
+	public List<Account> getAccounts(Long customerId) {
+		
+		List<Account> account = accountRepository.findByCustomerId(customerId);
 		return account;
 	}
 	
 	@Override
-	public Payment getPayment(String accountId) {
+	public List<Payment> getPayments(String accountId) {
 		// TODO Auto-generated method stub
-		Payment payment = paymentRepository.findByAccountNumber(accountId);
-		return payment;
+		List<Payment> payments = paymentRepository.findByAccountNumber(accountId);
+		return payments;
 	}
-
+	
 	@Override
-    public List<BillSummary> getBillSummaries(String accountNumber) {
-	    return accountRepository.findBillSummaries(accountNumber);
-    }
+	public List<BillSummary> getBillSummaries(String accountNumber) {
+		return accountRepository.findBillSummaries(accountNumber);
+	}
 	
 }

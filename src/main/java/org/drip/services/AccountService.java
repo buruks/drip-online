@@ -8,10 +8,10 @@ import org.drip.model.Payment;
 
 public interface AccountService {
 	
-	Account getAccount(int customerId);
+	List<Account> getAccounts(Long customerId);
 	
-	Payment getPayment(String accountId);
-
+	List<Payment> getPayments(String accountId);
+	
 	List<BillSummary> getBillSummaries(String accountNumber);
 	
 }
