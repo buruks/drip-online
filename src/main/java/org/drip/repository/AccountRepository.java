@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 public interface AccountRepository extends CrudRepository<Account, Long> {
 	
 	@Query("SELECT account FROM Account account WHERE account.customer.id =:id")
-	Account findByCustomerId(@Param("id") int customerId);
+	List<Account> findByCustomerId(@Param("id") Long customerId);
 	
 	@Query("SELECT billSummary FROM BillSummary billSummary WHERE billSummary.account.accountNumber =:accountNumber")
 	List<BillSummary> findBillSummaries(@Param("accountNumber") String accountNumber);

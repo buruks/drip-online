@@ -14,5 +14,5 @@ public interface CustomerService {
 	
 	Customer saveCustomer(Customer customer);
 	
-	Customer registerCustomer(WebUser webUser);	
+	Customer registerCustomer(WebUser webUser);
 }
