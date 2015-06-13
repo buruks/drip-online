@@ -44,7 +44,7 @@ public class CustomerController {
 		if (result.hasErrors()) {
 			return "register";
 		} else {
-			customerService.saveCustomer(webUser);
+			customerService.registerCustomer(webUser);
 			redirectAttributes.addAttribute("success", "saved.success");
 			return "redirect:login";
 		}		

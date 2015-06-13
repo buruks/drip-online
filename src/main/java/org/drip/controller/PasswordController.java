@@ -1,5 +1,8 @@
 package org.drip.controller;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
+
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
@@ -38,8 +41,9 @@ public class PasswordController {
 		return "forgot_password";
 	}
 	
-	@RequestMapping(value="/forgot", method=RequestMethod.POST)
-	public String sendLink(HttpServletRequest request, @ModelAttribute("email") String email, BindingResult result, Model model) {
+	@RequestMapping(value = "/forgot", method = RequestMethod.POST)
+	public String sendLink(HttpServletRequest request, @ModelAttribute("email") String email, BindingResult result,
+	                       Model model) {
 		ValidationUtils.validateEmailString(email, result);
 		if (!result.hasErrors()) {
 			ValidationUtils.validateEmailExists(email, userService, result);
@@ -47,15 +51,20 @@ public class PasswordController {
 		if (result.hasErrors()) {
 			return "forgot_password";
 		} else {
-			String resetUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/";
+			String hash = generateHash();
+			passwordService.saveHash(email, hash);
+			String resetUrl = request.getScheme() + "://" + request.getServerName() 
+					+ ":" + request.getServerPort() + "/password/reset?hash=" + hash;			
 			try {
 				passwordService.sendResetLink(email, resetUrl);
 				return "redirect:/index";
-			} catch (MessagingException ex) {
+			}
+			catch (MessagingException ex) {
 				log.error("Error while setting up mail.\n" + ex);
 				result.reject("setup.error");
 				return "forgot_password";
-			} catch (MailException ex) {
+			}
+			catch (MailException ex) {
 				log.error("Error while sending reset password.\n" + ex);
 				result.reject("mailing.error");
 				return "forgot_password";
@@ -91,5 +100,10 @@ public class PasswordController {
 			model.addAttribute("errorSaving", "error.saving");
 			return "reset_forgot";
 		}
+	}
+	
+	private String generateHash() {
+		SecureRandom random = new SecureRandom();
+		return new BigInteger(260, random).toString(32);
 	}
 }

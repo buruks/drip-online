@@ -1,112 +1,58 @@
 package org.drip.services;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+
+import java.io.FileInputStream;
+import java.util.Date;
+
+import javax.transaction.Transactional;
+
 import junit.framework.Assert;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
+import org.dbunit.dataset.IDataSet;
+import org.dbunit.dataset.ReplacementDataSet;
+import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
+import org.drip.controller.WebUser;
 import org.drip.model.Customer;
-import org.drip.model.User;
-import org.drip.repository.CustomerRepository;
-import org.drip.services.impl.CustomerServiceImpl;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.mockito.internal.verification.VerificationModeFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration
-public class CustomerServiceTest {
-	
-	@Configuration
-	static class CustomerServiceTestContextConfiguration {
-		
-		@Bean
-		public CustomerService customerService() {
-			return new CustomerServiceImpl();
-		}
-		
-		@Bean
-		public CustomerRepository customerRepository() {
-			return Mockito.mock(CustomerRepository.class);
-		}
-		
-	}
+public class CustomerServiceTest extends AbstractServiceTest {
 	
 	@Autowired
 	private CustomerService customerService;
 	
-	@Autowired
-	private CustomerRepository customerRepository;
-	
-	@Before
-	public void setup() {
-		User user1 = new User("john@test.com", "xxxx");
-		String firstName = "John";
-		String lastName = "Doe";
-		String businessName = "business";
-		String areaCode = "123452";
-		String phoneNumber = "123456789";
-		String accountNumber = "12345678";
-		String zipCode = "123";
-		
-		Customer customerWithFirstLastName = new Customer();		
-		customerWithFirstLastName.setFirstName(firstName);		
-		customerWithFirstLastName.setLastName(lastName);		
-		customerWithFirstLastName.setPhoneNumber(phoneNumber);		
-		customerWithFirstLastName.setAreaCode(areaCode);
-		customerWithFirstLastName.setZipCode(zipCode);
-		customerWithFirstLastName.setUser(user1);		
-		Mockito.when(customerRepository.findCustomer(firstName, lastName, accountNumber, areaCode, phoneNumber, zipCode)).thenReturn(customerWithFirstLastName);
-		
-		User user2 = new User("business@test.org", "yyyy");
-		Customer customerWithBusinessName = new Customer();
-		customerWithBusinessName.setBusinessName(businessName);
-		customerWithBusinessName.setPhoneNumber(phoneNumber);
-		customerWithBusinessName.setAreaCode(areaCode);
-		customerWithBusinessName.setZipCode(zipCode);
-		customerWithBusinessName.setUser(user2);				
-		Mockito.when(customerRepository.findByEmail("business@test.org")).thenReturn(customerWithBusinessName);
-		Mockito.when(customerRepository.findCustomer(businessName, accountNumber, areaCode, phoneNumber, zipCode)).thenReturn(customerWithBusinessName);
-	}
-	
 	@Test
 	public void testFindCustomerByEmailReturnsCustomer() {
-		Customer customer = customerService.getCustomer("business@test.org");
-		Assert.assertEquals("business", customer.getBusinessName());
+		Customer customer = customerService.getCustomer("business@test.com");
+		Assert.assertEquals("Business", customer.getBusinessName());
 		Assert.assertEquals("123456789", customer.getPhoneNumber());
-		Assert.assertEquals("business@test.org", customer.getUser().getUsername());
-		Mockito.verify(customerRepository, VerificationModeFactory.times(1)).findByEmail(Mockito.anyString());
+		Assert.assertEquals("business@test.com", customer.getUser().getUsername());
 	}
 	
 	@Test 
 	public void testFindCustomerByFirstLastNameAndOtherDetailsReturnsCustomer() {
-		Customer customer = customerService.getCustomer("John", "Doe", "12345678", "123452", "123456789", "123");
+		Customer customer = customerService.getCustomer("John", "Doe", "123456", "12345", "12345678", "123");
 		Assert.assertEquals("John", customer.getFirstName());
 		Assert.assertEquals("Doe", customer.getLastName());
-		Assert.assertEquals("123456789", customer.getPhoneNumber());
-		Assert.assertEquals("john@test.com", customer.getUser().getUsername());
-		Mockito.verify(customerRepository, VerificationModeFactory.times(1)).findCustomer(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString());
+		Assert.assertEquals("12345678", customer.getPhoneNumber());
 	}
 	
 	@Test
 	public void testFindCustomerByBusinessNameAndOtherDetailsReturnsCustomer() {
-		Customer customer = customerService.getCustomer("business", "12345678", "123452", "123456789", "123");
-		Assert.assertEquals("business", customer.getBusinessName());
+		Customer customer = customerService.getCustomer("Business", "123457", "12345", "123456789", "1234");
+		Assert.assertEquals("Business", customer.getBusinessName());
 		Assert.assertEquals("123456789", customer.getPhoneNumber());
-		Assert.assertEquals("business@test.org", customer.getUser().getUsername());
-		Mockito.verify(customerRepository, VerificationModeFactory.times(1)).findCustomer(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString());
+		Assert.assertEquals("business@test.com", customer.getUser().getUsername());
 	}
 	
 	@Test
 	public void testFindCustomerByWrongEmailReturnsNull() {
 		Customer customer = customerService.getCustomer("wrong@test.org");
 		Assert.assertNull(customer);
-		Mockito.verify(customerRepository, VerificationModeFactory.times(1)).findByEmail(Mockito.anyString());
 	}
 	
 	@Test
@@ -115,12 +61,34 @@ public class CustomerServiceTest {
 		Customer customer2 = customerService.getCustomer("business2", "12345678", "123452", "12345678", "12345");
 		Assert.assertNull(customer1);
 		Assert.assertNull(customer2);
-		Mockito.verify(customerRepository, VerificationModeFactory.times(1)).findCustomer(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString());
-		Mockito.verify(customerRepository, VerificationModeFactory.times(1)).findCustomer(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString());
 	}
 	
-	@After
-	public void reset() {		
-		Mockito.reset(customerRepository);
+	@Test
+	@Transactional
+	public void testRegiterUnregisteredCustomer () {
+		Customer customerToRegister = customerService.getCustomer("John", "Doe", "123456", "12345", "12345678", "123");
+		assertEquals(false, customerToRegister.isRegistered());
+		WebUser webUser = new WebUser();
+		webUser.setAccountNumber(customerToRegister.getAccountNumbers().get(0).getAccountNumber());
+		webUser.setFirstName(customerToRegister.getFirstName());
+		webUser.setLastName(customerToRegister.getLastName());
+		webUser.setEmail("john.doe@testmail.com");
+		webUser.setAreaCode(customerToRegister.getAreaCode());
+		webUser.setPhoneNumber(customerToRegister.getPhoneNumber());
+		webUser.setZipCode(customerToRegister.getZipCode());
+		webUser.setPassword("secret");
+		Customer registeredCustomer = customerService.registerCustomer(webUser);
+		assertEquals(true, registeredCustomer.isRegistered());
+		assertEquals("john.doe@testmail.com", registeredCustomer.getUser().getUsername());
+		assertFalse(StringUtils.equalsIgnoreCase(webUser.getPassword(), registeredCustomer.getUser().getPassword()));
 	}
+	
+	@Override
+    protected IDataSet getDataSet() throws Exception {
+		String dataSetFile = "src/test/resources/testData.xml";
+		IDataSet dataSet = new FlatXmlDataSetBuilder().build(new FileInputStream(dataSetFile));
+		ReplacementDataSet rDataSet = new ReplacementDataSet(dataSet);
+		rDataSet.addReplacementObject("[expire_date]", DateUtils.addDays(new Date(), 1));
+		return rDataSet;
+    }
 }

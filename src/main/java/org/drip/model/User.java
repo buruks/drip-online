@@ -30,9 +30,9 @@ public class User {
 	@JoinColumn(name="user_id")
 	private List<Role> roles;
 	
-	@OneToMany(cascade={CascadeType.ALL})
+	@OneToOne(cascade={CascadeType.ALL})
 	@JoinColumn(name="user_id")
-	private List<ResetHash> resetHash;
+	private ResetHash resetHash;
 	
 	@OneToOne(mappedBy = "user")
 	private Customer customer;
@@ -78,8 +78,12 @@ public class User {
     	this.roles = authorities;
     }
     
-    public List<ResetHash> getResetHash() {
+    public ResetHash getResetHash() {
     	return resetHash;
+    }
+    
+    public void setResetHash(ResetHash resetHash) {
+    	this.resetHash = resetHash;
     }
     
     public void setCustomer(Customer customer) {

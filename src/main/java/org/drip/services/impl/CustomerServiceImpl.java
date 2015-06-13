@@ -37,7 +37,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
 	@Override
-    public Customer saveCustomer(WebUser webUser) {
+    public Customer registerCustomer(WebUser webUser) {
 		Customer customer = null;
 		if (!StringUtils.isBlank(webUser.getFirstName()) && !StringUtils.isBlank(webUser.getLastName())) {
 			customer = getCustomer(webUser.getFirstName(), webUser.getLastName(), webUser.getAccountNumber(), webUser.getAreaCode(), webUser.getPhoneNumber(), webUser.getZipCode());
