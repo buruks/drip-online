@@ -18,7 +18,7 @@ import javax.persistence.Table;
 public class Customer {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@Column(name = "first_name")
@@ -43,19 +43,19 @@ public class Customer {
 	private String zipCode;
 	
 	@OneToMany(cascade = { CascadeType.ALL }, mappedBy = "customer")
-	private List<AccountNumber> accountNumbers;
+	private List<Account> accounts;
 	
 	private Boolean registered;
 	
-	@OneToOne(cascade = {CascadeType.ALL})
-	@JoinColumn(name="user_id")
+	@OneToOne(cascade = { CascadeType.ALL })
+	@JoinColumn(name = "user_id")
 	private User user;
 	
 	public Customer() {
 	}
 	
 	public Customer(Customer customer) {
-		this.accountNumbers = customer.getAccountNumbers();
+		this.accounts = customer.getAccounts();
 		this.areaCode = customer.getAreaCode();
 		this.businessName = customer.getBusinessName();
 		this.email = customer.getEmail();
@@ -66,8 +66,8 @@ public class Customer {
 		this.registered = customer.isRegistered();
 		this.user = customer.getUser();
 		this.zipCode = customer.getZipCode();
-    }
-
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -140,8 +140,8 @@ public class Customer {
 		this.areaCode = areaCode;
 	}
 	
-	public List<AccountNumber> getAccountNumbers() {
-		return accountNumbers;
+	public List<Account> getAccounts() {
+		return accounts;
 	}
 	
 	public User getUser() {
@@ -153,6 +153,6 @@ public class Customer {
 	}
 	
 	public String getFullName() {
-    	return firstName + " " + lastName;
-    }
+		return firstName + " " + lastName;
+	}
 }
