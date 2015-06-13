@@ -525,7 +525,7 @@ label {
     line-height: 20px;
     color: white;
     font-weight:bolder;
-    background: #6E6E6E;
+    background: #687376;
 }
 .sidebar.sidebar-grid .nav > li > a {
     border-bottom: 1px solid #383f46;
@@ -547,7 +547,7 @@ label {
 .sidebar .nav > li > a:hover,
 .sidebar .nav > li > a:focus {
     background: #232a2f;
-    color: #a8acb1;
+    color: #013ADF;
 }
 .sidebar .nav > li.active > a, 
 .sidebar .nav > li.active > a:hover, 
