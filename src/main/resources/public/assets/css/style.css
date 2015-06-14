@@ -497,10 +497,9 @@ label {
     width: 220px;
     position: absolute;
     left: 0;
-    top: 0;
-    bottom: 0;
+    top: 18%;
+    bottom: 20%;
     padding-top: 54px;
-    background: #2d353c;
     z-index: 10;
     -webkit-transform: translateZ(0);
 }
@@ -524,7 +523,9 @@ label {
 .sidebar .nav > li > a {
     padding: 8px 20px;
     line-height: 20px;
-    color: #a8acb1;
+    color: white;
+    font-weight:bolder;
+    background: #687376;
 }
 .sidebar.sidebar-grid .nav > li > a {
     border-bottom: 1px solid #383f46;
@@ -546,7 +547,7 @@ label {
 .sidebar .nav > li > a:hover,
 .sidebar .nav > li > a:focus {
     background: #232a2f;
-    color: #a8acb1;
+    color: #013ADF;
 }
 .sidebar .nav > li.active > a, 
 .sidebar .nav > li.active > a:hover, 
@@ -890,9 +891,12 @@ label {
 .footer {
     z-index: 1020;
     padding: 10px 0;
-    margin: 0 25px 0 245px;
+    margin: 0 25px 0 25px;
     border-top: 1px solid #CAD0D6;
     line-height: 20px;
+}
+.copyright{
+    margin-left:45%;
 }
 
 
@@ -3868,10 +3872,17 @@ ul.tagit.inverse li.tagit-choice .tagit-close:focus .ui-icon-close:before {
     margin: 168px 0;
     position: relative;
 }
+.home {
+    margin: 20px 0;
+    position: relative;
+}
 .company{
     font-size:16px;
 }
 .login label {
+    color: #707478;
+}
+.home label {
     color: #707478;
 }
 .login .login-header {
@@ -3882,6 +3893,15 @@ ul.tagit.inverse li.tagit-choice .tagit-close:focus .ui-icon-close:before {
     width: 500px;
     margin-left: -225px;
     font-weight: 300;
+}
+.home .home-header {
+    position: absolute;
+    top: 1%;
+    left: 50%;
+    right: 0;
+    margin-left: -595px;
+    font-weight: 300;
+    color:whitesmoke;
 }
 .login .forgot-password-header {
     position: absolute;
@@ -3907,6 +3927,11 @@ ul.tagit.inverse li.tagit-choice .tagit-close:focus .ui-icon-close:before {
     width:270px;
     margin-left:10px;
 }
+.home .home-header .brand {
+    padding: 0;
+    font-size: 13px;
+    margin-left:15px;
+}
 .login .signup-header .brand {
     padding: 0;
     font-size: 13px;
@@ -3928,7 +3953,21 @@ ul.tagit.inverse li.tagit-choice .tagit-close:focus .ui-icon-close:before {
     margin-right: 10px;
     top: -9px;
 }
+.home .home-header .brand .logo {
+    border: 14px solid transparent;
+    border-color: #4DCACA #31A3A3 #1D8888;
+    width: 28px;
+    height: 28px;
+    position: relative;
+    font-size: 0;
+    margin-right: 10px;
+    top: -9px;
+}
 .login .login-header .brand small {
+    font-size: 13px;
+    display: block;
+}
+.home .home-header .brand small {
     font-size: 13px;
     display: block;
 }
@@ -3941,6 +3980,11 @@ ul.tagit.inverse li.tagit-choice .tagit-close:focus .ui-icon-close:before {
     opacity: 1.0;
     filter: alpha(opacity=10);
 }
+.home .home-header .icon {
+    top: -7px;
+    opacity: 1.0;
+    filter: alpha(opacity=10);
+}
 .login .login-header .icon {
     top: -7px;
     opacity: 1.0;
@@ -3949,13 +3993,22 @@ ul.tagit.inverse li.tagit-choice .tagit-close:focus .ui-icon-close:before {
 .login .login-header .icon i {
     font-size: 70px;
 }
+.home .home-header .icon i {
+    font-size: 70px;
+}
 .login .login-content {
     padding: 30px 40px;
     color: #999;
     width: 450px;
     margin: 0 auto;
 }
-
+.home .home-content {
+    padding: 30px 40px;
+    color: #999;
+    width: 750px;
+    min-height:680px;
+    margin: 0 auto;
+}
 
 /*  6.8 Page - Gallery */
 
@@ -4682,13 +4735,34 @@ ul.tagit.inverse li.tagit-choice .tagit-close:focus .ui-icon-close:before {
     -moz-border-radius: 4px;
     border-radius: 4px;
 }
+.home-v2 {
+    background: url(../img/transparent/black-0.4.png);
+    background: rgba(0,0,0,0.4);
+    color: #ccc;
+    width: 1200px;
+    min-height:750px;
+    margin: 20px auto;
+    position: relative;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 8px;
+}
 .login-v2 .login-content {
     padding: 40px;
-}   
+} 
+.home-v2 .home-content {
+    padding: 10px;
+}  
 .login.login-v2 label {
     color: #ccc;
 }
+.home.home-v2 label {
+    color: #ccc;
+}
 .login.login-v2 a {
+    color: #fff;
+}
+.home.home-v2 a {
     color: #fff;
 }
 .login.login-v2 .login-header {
@@ -6359,6 +6433,7 @@ body.flat-black {
 }
 .clear{
     clear:both;
+    border-bottom:1px solid white;
 }
 .motto{
     font-style:italic;
@@ -6368,4 +6443,23 @@ body.flat-black {
     color:white;
     margin-bottom:12px;
     font-size:13px;
+}
+.separator {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  right: 0;
+  margin-left: -595px;
+  font-weight: 300;
+  color: whitesmoke;
+}
+.maincontent {
+  width: 945px;
+  position: absolute;
+  left: 20%;
+  top: 25%;
+  bottom: 13%;
+  padding-top: 54px;
+  z-index: 10;
+  -webkit-transform: translateZ(0);
 }
