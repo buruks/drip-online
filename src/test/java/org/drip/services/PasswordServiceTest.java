@@ -86,5 +86,14 @@ public class PasswordServiceTest extends AbstractServiceTest {
 		assertNotNull(user);
 		assertEquals(hash, user.getResetHash().getHash());
 	}
+
+	@Override
+    protected IDataSet getDataSet() throws Exception {
+		String dataSetFile = "src/test/resources/testData.xml";
+		IDataSet dataSet = new FlatXmlDataSetBuilder().build(new FileInputStream(dataSetFile));
+		ReplacementDataSet rDataSet = new ReplacementDataSet(dataSet);
+		rDataSet.addReplacementObject("[expire_date]", DateUtils.addDays(new Date(), 1));
+		return rDataSet;
+    }
 	
 }

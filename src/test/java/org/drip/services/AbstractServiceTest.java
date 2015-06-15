@@ -1,16 +1,10 @@
 package org.drip.services;
 
-import java.io.FileInputStream;
-import java.util.Date;
-
 import javax.sql.DataSource;
 
-import org.apache.commons.lang.time.DateUtils;
 import org.dbunit.DataSourceDatabaseTester;
 import org.dbunit.IDatabaseTester;
 import org.dbunit.dataset.IDataSet;
-import org.dbunit.dataset.ReplacementDataSet;
-import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
 import org.drip.config.TestConfig;
 import org.junit.After;
@@ -64,12 +58,6 @@ public abstract class AbstractServiceTest {
 		}
 	}
 	
-	protected IDataSet getDataSet() throws Exception {
-		String dataSetFile = "src/test/resources/testData.xml";
-		IDataSet dataSet = new FlatXmlDataSetBuilder().build(new FileInputStream(dataSetFile));
-		ReplacementDataSet rDataSet = new ReplacementDataSet(dataSet);
-		rDataSet.addReplacementObject("[expire_date]", DateUtils.addDays(new Date(), 1));
-		return rDataSet;
-	}
+	protected abstract IDataSet getDataSet() throws Exception;
 	
 }
