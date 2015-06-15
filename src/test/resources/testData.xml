@@ -2,10 +2,17 @@
 <dataset>
     <users user_id="1" username="business@test.com" password="$2a$10$ZTw2mSgfEI4siJoK.WF2Z.HwCLNkTb39J2UzxOBgDr8mpMjW0QKuG" />
     <users user_id="2" username="jane.doe@gmail.com" password="$2a$10$ZTw2mSgfEI4siJoK.WF2Z.HwCLNkTb39J2UzxOBgDr8mpMjW0QKuG" />
+    
     <customers id="1" first_name="" last_name="" business_name="Business" email="business@test.com" area_code="12345" phone_number="123456789" zip_code="1234" user_id="1" registered="1" />
     <customers id="2" first_name="John" last_name="Doe" business_name="" email="john.doe@test.com" area_code="12345" phone_number="12345678" zip_code="123" registered="0" />
     <customers id="3" first_name="Jane" last_name="Doe" business_name="" email="jane.doe@test.com" area_code="123457" phone_number="1234567810" zip_code="123" user_id="2" registered="1" />
-    <account_numbers id="1" account_number="123456" customer_id="2" />
-    <account_numbers id="2" account_number="123457" customer_id="1" />
+    
+    <account id="1" account_number="123456" customer_id="2" />
+    <account id="2" account_number="123457" customer_id="1" />
+    
     <reset_hash reset_hash_id="1" hash="d41d8cd98f00b204e9800998ecf8427e" expire_date="[expire_date]" user_id="1" used="0" />
+    
+    <bill_summary id="1" bill_date="2012-12-20" amount="30.00" paid="1" account_id="1" />
+    <bill_summary id="2" bill_date="2013-01-20" amount="45.00" paid="0" account_id="1" />
+   
 </dataset>
