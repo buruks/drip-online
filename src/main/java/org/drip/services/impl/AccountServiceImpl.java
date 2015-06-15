@@ -1,6 +1,9 @@
 package org.drip.services.impl;
 
+import java.util.List;
+
 import org.drip.model.Account;
+import org.drip.model.BillSummary;
 import org.drip.model.Payment;
 import org.drip.repository.AccountRepository;
 import org.drip.repository.PaymentRepository;
@@ -29,5 +32,10 @@ public class AccountServiceImpl implements AccountService {
 		Payment payment = paymentRepository.findByAccountNumber(accountId);
 		return payment;
 	}
+
+	@Override
+    public List<BillSummary> getBillSummaries(String accountNumber) {
+	    return accountRepository.findBillSummaries(accountNumber);
+    }
 	
 }
