@@ -3,11 +3,18 @@ package org.drip.services;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
+import java.io.FileInputStream;
+import java.util.Date;
+
 import javax.transaction.Transactional;
 
 import junit.framework.Assert;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
+import org.dbunit.dataset.IDataSet;
+import org.dbunit.dataset.ReplacementDataSet;
+import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.drip.controller.WebUser;
 import org.drip.model.Customer;
 import org.junit.Test;
@@ -62,7 +69,7 @@ public class CustomerServiceTest extends AbstractServiceTest {
 		Customer customerToRegister = customerService.getCustomer("John", "Doe", "123456", "12345", "12345678", "123");
 		assertEquals(false, customerToRegister.isRegistered());
 		WebUser webUser = new WebUser();
-		webUser.setAccountNumber(customerToRegister.getAccounts().get(0).getAccountNumber());
+		webUser.setAccountNumber(customerToRegister.getAccountNumbers().get(0).getAccountNumber());
 		webUser.setFirstName(customerToRegister.getFirstName());
 		webUser.setLastName(customerToRegister.getLastName());
 		webUser.setEmail("john.doe@testmail.com");
@@ -75,4 +82,13 @@ public class CustomerServiceTest extends AbstractServiceTest {
 		assertEquals("john.doe@testmail.com", registeredCustomer.getUser().getUsername());
 		assertFalse(StringUtils.equalsIgnoreCase(webUser.getPassword(), registeredCustomer.getUser().getPassword()));
 	}
+	
+	@Override
+    protected IDataSet getDataSet() throws Exception {
+		String dataSetFile = "src/test/resources/testData.xml";
+		IDataSet dataSet = new FlatXmlDataSetBuilder().build(new FileInputStream(dataSetFile));
+		ReplacementDataSet rDataSet = new ReplacementDataSet(dataSet);
+		rDataSet.addReplacementObject("[expire_date]", DateUtils.addDays(new Date(), 1));
+		return rDataSet;
+    }
 }

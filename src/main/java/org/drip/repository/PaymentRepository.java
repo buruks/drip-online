@@ -7,6 +7,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface PaymentRepository extends CrudRepository<Payment, Long> {
 	
-	@Query("SELECT payment FROM Payment payment INNER JOIN payment.account INNER JOIN payment.paymentType WHERE payment.account.accountNumber=:accountNumber ")
+	@Query("SELECT paymentHistory FROM PaymentHistory paymentHistory INNER JOIN paymentHistory.account INNER JOIN paymentHistory.paymentType WHERE account.accountNumber=:accountNumber ")
 	Payment findByAccountNumber(@Param("accountNumber") String accountId);
 }
