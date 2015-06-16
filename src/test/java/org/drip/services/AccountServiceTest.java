@@ -3,6 +3,7 @@ package org.drip.services;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
+import java.util.Map;
 
 import org.drip.model.BillSummary;
 import org.junit.Test;
@@ -15,10 +16,17 @@ public class AccountServiceTest extends AbstractServiceTest {
 	AccountService accountService;
 	
 	@Test
-	public void testGetBillSummaries() {		
+	public void testGetBillSummariesForGivenAccount() {		
 		String accountNumber = "123456";
 		List<BillSummary> billSummaries = accountService.getBillSummaries(accountNumber);
 		assertEquals(2, billSummaries.size());
+	}
+	
+	@Test
+	public void testGetBillSummariesForClient() {
+		Long clientId = Long.valueOf(2);
+		Map<String, List<BillSummary>> billSummariesMap = accountService.getBillSummaries(clientId);
+		assertEquals(2, billSummariesMap.size());
 	}
 	
 	@Test

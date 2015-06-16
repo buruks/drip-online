@@ -1,7 +1,5 @@
 package org.drip.controller;
 
-import org.drip.model.Customer;
-
 public class WebUser {
 	
 	
