@@ -1,6 +1,9 @@
 package org.drip.services.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.drip.model.Account;
 import org.drip.model.BillSummary;
@@ -35,8 +38,25 @@ public class AccountServiceImpl implements AccountService {
 	}
 	
 	@Override
-	public List<BillSummary> getBillSummaries(String accountNumber) {
-		return accountRepository.findBillSummaries(accountNumber);
-	}
+    public List<BillSummary> getBillSummaries(String accountNumber) {		
+	    return accountRepository.findBillSummaries(accountNumber);
+    }
+
+	@Override
+    public Map<String, List<BillSummary>> getBillSummaries(Long customerId) {
+		Map<String, List<BillSummary>> billSummariesMap = new HashMap<String, List<BillSummary>>();
+		List<BillSummary> billSummaries = accountRepository.findBillSummaries(customerId);
+		for (BillSummary billSummary : billSummaries) {
+			String accountNumber = billSummary.getAccount().getAccountNumber();
+			if (billSummariesMap.containsKey(accountNumber)) {
+				billSummariesMap.get(accountNumber).add(billSummary);
+			} else {
+				List<BillSummary> bills = new ArrayList<BillSummary>();
+				bills.add(billSummary);
+				billSummariesMap.put(accountNumber, bills);
+			}
+		}
+		return billSummariesMap;
+    }
 	
 }

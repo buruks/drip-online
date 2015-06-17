@@ -16,4 +16,7 @@ public interface AccountRepository extends CrudRepository<Account, Long> {
 	@Query("SELECT billSummary FROM BillSummary billSummary WHERE billSummary.account.accountNumber =:accountNumber")
 	List<BillSummary> findBillSummaries(@Param("accountNumber") String accountNumber);
 	
+	@Query("SELECT billSummary FROM BillSummary billSummary WHERE billSummary.account.customer.id =:customerId")
+	List<BillSummary> findBillSummaries(@Param("customerId") Long customerId);
+	
 }

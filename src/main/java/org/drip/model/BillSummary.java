@@ -16,54 +16,81 @@ import javax.persistence.TemporalType;
 public class BillSummary {
 	
 	@Id
-	private int id;
+	private Long id;
+	
 	@Column(name = "bill_date")
 	@Temporal(TemporalType.DATE)
 	private Date billDate;
-	private Double amount;
+	
+	@Column(name = "amount_due")
+	private Double amountDue;
+	
+	@Column(name = "current_amount")
+	private Double currentAmount;
+	
+	@Column(name = "amount_paid")
+	private Double amountPaid;
+	
 	private Boolean paid;
+	
 	@ManyToOne
 	@JoinColumn(name = "account_id")
 	private Account account;
 	
-    public int getId() {
-    	return id;
-    }
+	public Long getId() {
+		return id;
+	}
 	
-    public void setId(int id) {
-    	this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 	
-    public Date getBillDate() {
-    	return billDate;
-    }
+	public Date getBillDate() {
+		return billDate;
+	}
 	
-    public void setBillDate(Date billDate) {
-    	this.billDate = billDate;
-    }
+	public void setBillDate(Date billDate) {
+		this.billDate = billDate;
+	}
 	
-    public Double getAmount() {
-    	return amount;
-    }
+	public Double getAmountDue() {
+		return amountDue;
+	}
 	
-    public void setAmount(Double amount) {
-    	this.amount = amount;
-    }
+	public void setAmountDue(Double amountDue) {
+		this.amountDue = amountDue;
+	}
 	
-    public Boolean getPaid() {
-    	return paid;
-    }
+	public Double getCurrentAmount() {
+		return currentAmount;
+	}
 	
-    public void setPaid(Boolean paid) {
-    	this.paid = paid;
-    }
+	public void setCurrentAmount(Double currentAmount) {
+		this.currentAmount = currentAmount;
+	}
 	
-    public Account getAccount() {
-    	return account;
-    }
+	public Double getAmountPaid() {
+		return amountPaid;
+	}
 	
-    public void setAccount(Account account) {
-    	this.account = account;
-    }
+	public void setAmountPaid(Double amountPaid) {
+		this.amountPaid = amountPaid;
+	}
+	
+	public Boolean getPaid() {
+		return paid;
+	}
+	
+	public void setPaid(Boolean paid) {
+		this.paid = paid;
+	}
+	
+	public Account getAccount() {
+		return account;
+	}
+	
+	public void setAccount(Account account) {
+		this.account = account;
+	}
 	
 }

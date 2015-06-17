@@ -1,6 +1,7 @@
 package org.drip.services;
 
 import java.util.List;
+import java.util.Map;
 
 import org.drip.model.Account;
 import org.drip.model.BillSummary;
@@ -13,5 +14,7 @@ public interface AccountService {
 	List<Payment> getPayments(String accountId);
 	
 	List<BillSummary> getBillSummaries(String accountNumber);
+	
+	Map<String, List<BillSummary>> getBillSummaries(Long customerId);
 	
 }
