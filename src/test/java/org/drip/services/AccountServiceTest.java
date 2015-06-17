@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 import java.util.Map;
 
+import org.drip.model.Account;
 import org.drip.model.BillSummary;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,13 @@ public class AccountServiceTest extends AbstractServiceTest {
 		String accountNumber = "XXXXXX";
 		List<BillSummary> billSummaries = accountService.getBillSummaries(accountNumber);
 		assertEquals(0, billSummaries.size());
+	}
+	
+	@Test
+	public void testGetAccounts() {
+		Long customerId = 2L;
+		List<Account> accounts = accountService.getAccounts(customerId);
+		assertEquals(2, accounts.size());
 	}
 	
 }
