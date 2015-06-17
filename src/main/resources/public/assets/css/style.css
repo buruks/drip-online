@@ -6481,3 +6481,11 @@ body.flat-black {
     margin-bottom:10px;
     font-size:14px;
 }
+.green{
+	color:green;
+	font-weight:bolder;
+}
+.red{
+	color:red;
+	font-weight:bolder;
+}
