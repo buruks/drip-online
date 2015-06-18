@@ -1,5 +1,6 @@
 package org.drip.model;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -24,6 +25,18 @@ public class Account {
 	
 	@Column(name = "account_number")
 	private String accountNumber;
+	
+	@Column(name="is_active")
+	private Boolean isActive;
+	
+	@Column(name="last_billed")
+	private Date lastBilled;
+	
+	@Column(name="current_balance")
+	private Double currentBalance;
+	
+	@Column(name="water_state")
+	private Boolean waterState; 
 	
 	@ManyToOne
 	@JoinColumn(name = "customer_id")
@@ -51,6 +64,38 @@ public class Account {
 	public Customer getCustomer() {
 		return customer;
 	}
+	
+	public void setIsActive(Boolean isActive) {
+		this.isActive = isActive;
+	}
+	
+	public Boolean getIsActive() {
+		return isActive;
+	}
+	
+	public void setLastBilled(Date lastBilled) {
+		this.lastBilled = lastBilled;
+	}
+	
+	public Date getLastBilled() {
+		return lastBilled;
+	}
+	
+	public void setCurrentBalance(Double currentBalance) {
+		this.currentBalance = currentBalance;
+	}
+	
+	public Double getCurrentBalance() {
+		return currentBalance;
+	}
+	
+	public void setWaterState(Boolean waterState) {
+		this.waterState = waterState;
+	}
+	
+	public Boolean getWaterState() {
+		return waterState;
+	}	
 	
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
