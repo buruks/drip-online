@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if !IE]><!-->
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <!--<![endif]-->
 <head>
     <meta charset="utf-8" />
-    <title>NWCWD | Accounts</title>
+    <title>NWCWD | Billing History</title>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <meta content="" name="description" />
     <meta content="" name="author" />
@@ -57,11 +57,9 @@
                         <small class="motto">Serving it's customers in Northern Weld and Eastern Larimer Counties since 1962</small>
                     </div>
                     <div class="col-md-4 pull-right customerdetail">
-                    <p th:text="${customer.fullName}"></p>
-                    <p th:text="${customer.email}"></p>
-                    <p>(<span th:text="${customer.areaCode}"></span>) - <span th:text="${customer.phoneNumber}"></span></p>
-                    
-                     
+	                    <p th:text="${customer.fullName}"></p>
+	                    <p th:text="${customer.email}"></p>
+	                    <p>(<span th:text="${customer.areaCode}"></span>) - <span th:text="${customer.phoneNumber}"></span></p>
                     </div>
                     <span class="clear"></span>
 
@@ -72,11 +70,11 @@
             <div class="home-content">
                 <div class="sidebar">
                     <ul class="nav nav-pills nav-stacked">
-                      <li role="presentation" ><a href="/">Home</a></li>
-                      <li role="presentation" class="active"><a href="/accounts/">Account Information</a></li>
-                      <li role="presentation"><a href="paymentHistory.html">Payment History</a></li>
+                      <li role="presentation" ><a href="index.html">Home</a></li>
+                      <li role="presentation" ><a href="accounts.html">Account Information</a></li>
+                      <li role="presentation" ><a href="paymentHistory.html">Payment History</a></li>
                       <li role="presentation"><a href="#">Consumption Report</a></li>
-                      <li role="presentation"><a href="billingHistory.html">Billing History</a></li>
+                      <li role="presentation" class="active"><a href="" >Billing History</a></li>
                       <li role="presentation"><a href="#">Service Summary</a></li>
                       <li role="presentation"><a href="login.html">Log Off</a></li>
                     </ul>
@@ -84,55 +82,72 @@
                 <div class="maincontent">
                     
                     <div class="col-md-12 content-head">
-                        <div><strong><u>Accounts:</u></strong></div>
+                        <div><strong><u>Billing History:</u></strong></div>
+                        
                     </div>
+                    
                     <!-- begin col-12 -->
                     <div class="col-md-12">
                         <div class="panel-group" id="accordion">
-                            <div th:each="account, iterStat : ${accounts}"  class="panel panel-inverse overflow-hidden"  >
+						
+                            <div class="panel panel-inverse overflow-hidden">
                                 <div class="panel-heading">
                                     <div class="panel-heading-btn">
                                         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-repeat"></i></a>
                                         <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
-                                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+                                        <a href="" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
                                     </div>
                                     <h3 class="panel-title">
-                                        <a class="accordion-toggle accordion-toggle-styled" data-toggle="collapse" data-parent="#accordion" th:href="'#'+@{(${account.accountNumber})}">
-                                            Acccount Number: <span th:text="${account.accountNumber}"></span>
+                                        <a class="accordion-toggle accordion-toggle-styled" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                            Billing History for A/C # <span th:text="${accountNumber}"></span>
                                         </a>
                                     </h3>
                                     
                                 </div>
-                                <div th:id="${account.accountNumber}" class="panel-collapse collapse" th:classappend="${iterStat.first? 'in':''}">
+                                
+                                <div id="collapseOne" class="panel-collapse in">
                                     <div class="panel-body">
-                                    	<div th:switch="${account.isActive}"> 
-                                    		<p th:case="true"><strong>Account Status:  </strong><span class="green">ACTIVE</span> <small>(payments are allowed)</small></p>
-  											<p th:case="false"><strong>Account Status:  </strong><span class="red">INACTIVE</span> <small>(payments are not allowed!)</small></p>
-  										</div>
-                                        
-                                        <p><strong>Account Balance (USD): </strong><span th:text="${#numbers.formatDecimal(account.currentBalance,0,'COMMA',2,'POINT')}"></span> </p>
-                                        
-                                        <p>Your last bill was sent on <span th:text="${#dates.format(account.lastBilled, #messages.msg('app.dateformat'))}"></span> in the amount of USD.<span th:text="${#numbers.formatDecimal(account.currentBalance,0,'COMMA',2,'POINT')}"></span>. You can view your last bill by 
-                                        clicking <a class="panel-link" href="">here</a></p>
-                                        <p><a class="panel-link" href="paymentHistory.html">payment history</a></p>
-                                        <p><a class="panel-link" th:href="@{'/accounts/'+${account.accountNumber}+'/bills'}">billing history</a></p>
+										<div th:if="${#lists.isEmpty(billSummaries)}"> 
+					                   		<p>Sorry, this account has no bill summaries yet!</p>
+					                   	</div>
+										
+                                        <div th:if="${not #lists.isEmpty(billSummaries)}" class="table-responsive">
+                                    
+                                            <table id="data-table" class="table table-striped table-bordered table-condensed table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Bill Date</th>
+                                                        <th>Current Charges (USD)</th>
+                                                        <th>Total Due (USD)</th>
+                                                        <th>Amount Paid (USD)</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr th:each="billSummary, iterStat: ${billSummaries}" th:class="${iterStat.odd}? 'odd':'even'">
+                                                        <td th:text="${billSummary.billDate}"></td>
+                                                        <td th:text="${#numbers.formatDecimal(billSummary.currentAmount,0,'COMMA',2,'POINT')}"></td>
+                                                        <td th:text="${#numbers.formatDecimal(billSummary.amountDue,0,'COMMA',2,'POINT')}"></td>
+                                                        <td th:text="${#numbers.formatDecimal(billSummary.amountPaid,0,'COMMA',2,'POINT')}"></td>
+                                                    </tr>
+                                                 </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            
-                        </div>
+						</div>
                     </div>
-                    <!-- end col-6 -->
                 </div>
+                
             </div>
-            <!-- begin #footer -->
+
+        </div>
+        <!-- end login -->
+        <!-- begin #footer -->
             <div class="footer">
                 <p class="copyright">&copy; Copyright NWCWD 2015</p>
             </div>
             <!-- end #footer -->
-
-        </div>
-        <!-- end login -->
         
     </div>
     <!-- end page container -->
@@ -150,6 +165,10 @@
     <script src="/assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <script src="/assets/plugins/jquery-cookie/jquery.cookie.js"></script>
     <!-- ================== END BASE JS ================== -->
+
+    <!-- DataTables JavaScript -->
+    <script src="/assets/plugins/DataTables/js/jquery.dataTables.min.js"></script>
+    <script src="/assets/plugins/DataTables/js/dataTables.bootstrap.js"></script>
     
     <!-- ================== BEGIN PAGE LEVEL JS ================== -->
     <script src="/assets/js/apps.min.js"></script>
@@ -158,6 +177,7 @@
     <script>
         $(document).ready(function() {
             App.init();
+            $('#data-table').dataTable();
         });
     </script>
 </body>

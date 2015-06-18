@@ -894,6 +894,8 @@ label {
     margin: 0 25px 0 25px;
     border-top: 1px solid #CAD0D6;
     line-height: 20px;
+    padding-bottom:20px;
+    padding-top:20px;
 }
 .copyright{
     margin-left:45%;
@@ -1860,7 +1862,8 @@ legend {
     border-top: none;
 }
 .panel-body {
-    padding: 15px;
+    padding: 5px;
+    color:black;
 }
 .panel-body.no-border {
     border: none !important;
@@ -4012,6 +4015,7 @@ ul.tagit.inverse li.tagit-choice .tagit-close:focus .ui-icon-close:before {
     width: 750px;
     min-height:780px;
     margin: 0 auto;
+    margin-bottom:10px;
 }
 
 /*  6.8 Page - Gallery */
@@ -4761,13 +4765,13 @@ ul.tagit.inverse li.tagit-choice .tagit-close:focus .ui-icon-close:before {
     color: #ccc;
 }
 .home.home-v2 label {
-    color: #ccc;
+    color: #000;
 }
 .login.login-v2 a {
     color: #fff;
 }
 .home.home-v2 a {
-    color: #fff;
+    /*color: #fff;*/
 }
 .login.login-v2 .login-header {
     color: #fff;
@@ -6488,4 +6492,20 @@ body.flat-black {
 .red{
 	color:red;
 	font-weight:bolder;
+}
+.dataTables_filter {
+  float: right;
+}
+.pagination {
+  display: inline-block;
+  padding-left: 0;
+  border-radius: 4px;
+  float: right;
+  margin-top:-2px;
+}
+.paginate_button {
+  color:black !important;
+}
+.table-responsive{
+  overflow-x:hidden;
 }

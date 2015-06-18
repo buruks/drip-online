@@ -65,6 +65,7 @@ public class AccountController {
 			Customer customer = (Customer)(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 			model.addAttribute("customer", customer);
 			model.addAttribute("billSummaries", accountService.getBillSummaries(accountNumber));
+			model.addAttribute("accountNumber", accountNumber);
 			return "bill-history";
 		} else {
 			return "redirect:/login";
