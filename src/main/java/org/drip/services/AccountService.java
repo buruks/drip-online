@@ -13,6 +13,8 @@ public interface AccountService {
 	
 	List<Payment> getPayments(String accountId);
 	
+	Map<String, List<Payment>> getPaymentsByCustomer(Long customerId);
+	
 	List<BillSummary> getBillSummaries(String accountNumber);
 	
 	Map<String, List<BillSummary>> getBillSummaries(Long customerId);

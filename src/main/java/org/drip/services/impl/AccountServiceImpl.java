@@ -9,7 +9,6 @@ import org.drip.model.Account;
 import org.drip.model.BillSummary;
 import org.drip.model.Payment;
 import org.drip.repository.AccountRepository;
-import org.drip.repository.PaymentRepository;
 import org.drip.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,10 +18,7 @@ public class AccountServiceImpl implements AccountService {
 	
 	@Autowired
 	AccountRepository accountRepository;
-	
-	@Autowired
-	PaymentRepository paymentRepository;
-	
+		
 	@Override
 	public List<Account> getAccounts(Long customerId) {
 		
@@ -31,9 +27,8 @@ public class AccountServiceImpl implements AccountService {
 	}
 	
 	@Override
-	public List<Payment> getPayments(String accountId) {
-		// TODO Auto-generated method stub
-		List<Payment> payments = paymentRepository.findByAccountNumber(accountId);
+	public List<Payment> getPayments(String accountNumber) {
+		List<Payment> payments = accountRepository.findPaymentsByAccountNumber(accountNumber);
 		return payments;
 	}
 	
@@ -57,6 +52,23 @@ public class AccountServiceImpl implements AccountService {
 			}
 		}
 		return billSummariesMap;
+    }
+
+	@Override
+    public Map<String, List<Payment>> getPaymentsByCustomer(Long customerId) {
+		Map<String, List<Payment>> paymentMap = new HashMap<String, List<Payment>>();
+		List<Payment> payments = accountRepository.findPaymentsByCustomerId(customerId);
+		for(Payment payment: payments)	{
+			String accountNumber = payment.getAccount().getAccountNumber();
+			if (paymentMap.containsKey(accountNumber)) {
+				paymentMap.get(accountNumber).add(payment);
+			} else {
+				List<Payment> pay = new ArrayList<Payment>();
+				pay.add(payment);
+				paymentMap.put(accountNumber, pay);
+			}
+		}
+	    return paymentMap;
     }
 	
 }

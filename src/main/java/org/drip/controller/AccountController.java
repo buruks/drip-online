@@ -26,9 +26,10 @@ public class AccountController {
 		return "accounts";
 	}
 	
-	@RequestMapping(value = "{accountNumber}/payments", method = RequestMethod.GET)
-	public String getAccountPayments(@PathVariable("accountNumber") String accountNumber, Model model) {
-		model.addAttribute("payments", accountService.getPayments(accountNumber));
+	@RequestMapping(value = "/payments", method = RequestMethod.GET)
+	public String getAccountPayments(Model model) {
+		Customer customer = (Customer) (SecurityContextHolder.getContext().getAuthentication());
+		model.addAttribute("payments", accountService.getPaymentsByCustomer(customer.getId()));
 		return "payments";
 	}
 	

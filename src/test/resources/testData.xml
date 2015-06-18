@@ -16,5 +16,14 @@
     <bill_summary id="1" bill_date="2012-12-20" current_amount="15.00"  amount_due="30.00" amount_paid="30.00" paid="1" account_id="1" />
     <bill_summary id="2" bill_date="2013-01-20" current_amount="15.00" amount_due="45.00" amount_paid="40.00" paid="0" account_id="1" />
     <bill_summary id="3" bill_date="2013-01-20" current_amount="15.00" amount_due="45.00" amount_paid="40.00" paid="0" account_id="3" />
+    
+    <payment_type id="1" code="2341" description="cash" />
+    <payment_type id="2" code="4353" description="m-pesa" />
+    <payment_type id="3" code="4323" description="cheque" />
+   
+    <payment id="1" amount="50" payment_date="2012-12-20"  update_date="2012-12-20" account_id="1" payment_type_id="1" />
+    <payment id="2" amount="20" payment_date="2013-12-20"  update_date="2014-12-20" account_id="1" payment_type_id="1" />
+    <payment id="3" amount="50" payment_date="2012-12-20"  update_date="2012-12-20" account_id="3" payment_type_id="2" />
+    <payment id="4" amount="20" payment_date="2013-12-20"  update_date="2014-12-20" account_id="3" payment_type_id="3" />
    
 </dataset>

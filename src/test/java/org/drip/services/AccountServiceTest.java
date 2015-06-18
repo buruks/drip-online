@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.drip.model.Account;
 import org.drip.model.BillSummary;
+import org.drip.model.Payment;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -44,4 +45,24 @@ public class AccountServiceTest extends AbstractServiceTest {
 		assertEquals(2, accounts.size());
 	}
 	
+	@Test
+	public void testGetPaymentByAccount() {
+		String accountNumber = "123456";
+		List<Payment> payments = accountService.getPayments(accountNumber);
+		assertEquals(2,payments.size());
+	}
+	
+	@Test
+	public void testGetPaymentByMissingAccount() {
+		String accountNumber = "FFFFFFF";
+		List<Payment> payments = accountService.getPayments(accountNumber);
+		assertEquals(0,payments.size());
+	}
+	
+	@Test
+	public void testGetPaymentsByCustomerId() {
+		Long customerId = 2L;
+		Map<String, List<Payment>> payments = accountService.getPaymentsByCustomer(customerId);
+		assertEquals(2,payments.size());
+	}
 }
