@@ -43,6 +43,17 @@ public class AccountController {
 		}
 	}
 	
+	@RequestMapping(value="/{accountNumber}/payments", method = RequestMethod.GET)
+	public String getAccountPaymentsByAccountNumber(@PathVariable String accountNumber, Model model) {
+		Boolean isAuthenticated = !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);
+		if (isAuthenticated) {
+			model.addAttribute("accountPayments", accountService.getPayments(accountNumber));
+			return "account-payments";
+		} else {
+			return "redirect:/login";
+		}
+	}
+	
 	@RequestMapping(value = "/{accountNumber}/bills", method = RequestMethod.GET)
 	public String getBillSummaries(@PathVariable String accountNumber, Model model) {
 		Boolean isAuthenticated = !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);
