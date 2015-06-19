@@ -21,16 +21,26 @@ public class AccountController {
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String getAccounts(Model model) {
-		Customer customer = (Customer) (SecurityContextHolder.getContext().getAuthentication());
-		model.addAttribute("accounts", customer.getId());
-		return "accounts";
+		Boolean isAuthenticated = !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);
+		if (isAuthenticated) {
+			Customer customer = (Customer) (SecurityContextHolder.getContext().getAuthentication());
+			model.addAttribute("accounts", customer.getId());
+			return "accounts";
+		} else {
+			return "redirect:/login";
+		}
 	}
 	
 	@RequestMapping(value = "/payments", method = RequestMethod.GET)
 	public String getAccountPayments(Model model) {
-		Customer customer = (Customer) (SecurityContextHolder.getContext().getAuthentication());
-		model.addAttribute("payments", accountService.getPaymentsByCustomer(customer.getId()));
-		return "payments";
+		Boolean isAuthenticated = !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);
+		if (isAuthenticated) {
+			Customer customer = (Customer) (SecurityContextHolder.getContext().getAuthentication());
+			model.addAttribute("payments", accountService.getPaymentsByCustomer(customer.getId()));
+			return "payments";
+		} else {
+			return "redirect:/login";
+		}
 	}
 	
 	@RequestMapping(value = "/{accountNumber}/bills", method = RequestMethod.GET)
