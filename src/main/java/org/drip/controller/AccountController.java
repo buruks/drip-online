@@ -40,8 +40,9 @@ public class AccountController {
 		Boolean isAuthenticated = !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);
 		if (isAuthenticated) {
 			Customer customer = (Customer) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-			model.addAttribute("payments", accountService.getPaymentsByCustomer(customer.getId()));
-			return "payments";
+			model.addAttribute("paymentMap", accountService.getPaymentsByCustomer(customer.getId()));
+			model.addAttribute("customer", customer);
+			return "payments-history";
 		} else {
 			return "redirect:/login";
 		}

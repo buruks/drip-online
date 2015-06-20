@@ -52,11 +52,11 @@ public class Payment {
 		this.paymentDate = paymentDate;
 	}
 	
-	public Double getAmmount() {
+	public Double getAmount() {
 		return amount;
 	}
 	
-	public void setAmmount(Double amount) {
+	public void setAmount(Double amount) {
 		this.amount = amount;
 	}
 	
