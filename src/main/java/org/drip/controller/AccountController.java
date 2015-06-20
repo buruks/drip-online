@@ -62,6 +62,8 @@ public class AccountController {
 	public String getBillSummaries(@PathVariable String accountNumber, Model model) {
 		Boolean isAuthenticated = !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);
 		if (isAuthenticated) {
+			Customer customer = (Customer)(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+			model.addAttribute("customer", customer);
 			model.addAttribute("billSummaries", accountService.getBillSummaries(accountNumber));
 			return "bill-history";
 		} else {
@@ -74,6 +76,7 @@ public class AccountController {
 		Boolean isAuthenticated = !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);
 		if (isAuthenticated) {
 			Customer customer = (Customer)(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+			model.addAttribute("customer", customer);
 			model.addAttribute("billSummariesMap", accountService.getBillSummaries(customer.getId()));
 			return "bill-history";
 		} else {
