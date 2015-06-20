@@ -497,7 +497,7 @@ label {
     width: 220px;
     position: absolute;
     left: 0;
-    top: 18%;
+    top: 16%;
     bottom: 20%;
     padding-top: 54px;
     z-index: 10;
@@ -1148,6 +1148,10 @@ legend {
 }
 .alert.alert-info {
     background: #93cfe5;
+}
+.alert.alert-dt-info {
+    background: #00acac;
+    color:white;
 }
 .alert.alert-danger {
     background: #f8b2b2;
@@ -4006,7 +4010,7 @@ ul.tagit.inverse li.tagit-choice .tagit-close:focus .ui-icon-close:before {
     padding: 30px 40px;
     color: #999;
     width: 750px;
-    min-height:680px;
+    min-height:780px;
     margin: 0 auto;
 }
 
@@ -6446,7 +6450,7 @@ body.flat-black {
 }
 .separator {
   position: absolute;
-  top: 20%;
+  top: 18%;
   left: 50%;
   right: 0;
   margin-left: -595px;
@@ -6457,9 +6461,23 @@ body.flat-black {
   width: 945px;
   position: absolute;
   left: 20%;
-  top: 25%;
+  top: 16%;
   bottom: 13%;
   padding-top: 54px;
   z-index: 10;
+  color:whitesmoke;
   -webkit-transform: translateZ(0);
+}
+.panel-body{
+    color:black;
+}
+.panel-link{
+    color:#337ab7 !important;
+}
+.customerdetail{
+    margin-right:-190px;
+}
+.content-head{
+    margin-bottom:10px;
+    font-size:14px;
 }
