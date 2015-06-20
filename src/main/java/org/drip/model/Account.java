@@ -45,6 +45,9 @@ public class Account {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "account")
 	private List<Payment> payments;
 	
+	@OneToMany(fetch = FetchType.LAZY,  cascade = CascadeType.ALL, mappedBy= "account")
+	public List<Usage> usage;
+	
 	public int getId() {
 		return id;
 	}
@@ -103,5 +106,9 @@ public class Account {
 	
 	public List<Payment> getPayments() {
 		return payments;
+	}
+	
+	public List<Usage> getUsage() {
+		return usage;
 	}
 }
