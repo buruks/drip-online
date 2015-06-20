@@ -22,6 +22,7 @@ import org.drip.config.WebTestConfig;
 import org.drip.model.BillSummary;
 import org.drip.model.Customer;
 import org.drip.model.Payment;
+import org.drip.model.Usage;
 import org.drip.services.AccountService;
 import org.junit.Before;
 import org.junit.Test;
@@ -171,6 +172,43 @@ public class AccountControllerTest {
 		mockMvc.perform(get("/accounts/payments").with(user(userDetails))).andExpect(status().isOk())
 		        .andExpect(view().name("payments-history")).andExpect(model().attribute("paymentMap", hasKey("1234")))
 		        .andExpect(model().attribute("paymentMap", hasKey("123456")));
+	}
+	
+	@Test
+	public void testGetUsageByCustomer() throws Exception {
+		Usage usage1 = new Usage();
+		usage1.setId(1);
+		usage1.setUsage(Double.valueOf(40.90));
+		
+		Usage usage2 = new Usage();
+		usage2.setId(2);
+		usage2.setUsage(Double.valueOf(34.98));
+		
+		Map<String, List<Usage>> usageMap = new HashMap<String, List<Usage>>();
+		String firstAccountNumber = "1234";
+		usageMap.put(firstAccountNumber, Arrays.asList(usage1));
+		String secondAccountNumber = "123456";
+		usageMap.put(secondAccountNumber, Arrays.asList(usage2));
+		
+		Mockito.when(accountServiceMock.getUsagesByCustomer(1L)).thenReturn(usageMap);
+		mockMvc.perform(get("/accounts/usage").with(user(userDetails))).andExpect(status().isOk())
+		        .andExpect(view().name("usage-history")).andExpect(model().attribute("usageMap", hasKey("1234")));
+		
+	}
+	
+	@Test
+	public void testGetUsageByAccount() throws Exception {
+		Usage usage = new Usage();
+		usage.setId(3);
+		usage.setUsage(Double.valueOf(23));
+		Usage usage1 = new Usage();
+		usage1.setId(1);
+		usage1.setUsage(Double.valueOf(24));
+		List<Usage> usages = Arrays.asList(usage, usage1);
+		
+		Mockito.when(accountServiceMock.getUsagesByAccount("1234")).thenReturn(usages);
+		mockMvc.perform(get("/accounts/1234/usage").with(user(userDetails))).andExpect(status().isOk())
+		        .andExpect(view().name("account-usage-history")).andExpect(model().attribute("usages", hasSize(2)));
 	}
 	
 	private final class MockUserDetails extends Customer implements UserDetails {
