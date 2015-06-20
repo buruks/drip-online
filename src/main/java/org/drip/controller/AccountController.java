@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class AccountController {
 	
 	AccountService accountService;
-
+	
 	@Autowired
 	public AccountController(AccountService accountService) {
 		this.accountService = accountService;
 	}
-
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String getAccounts(Model model) {
 		Boolean isAuthenticated = !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);
@@ -47,8 +47,8 @@ public class AccountController {
 			return "redirect:/login";
 		}
 	}
-
-	@RequestMapping(value="/{accountNumber}/payments", method = RequestMethod.GET)
+	
+	@RequestMapping(value = "/{accountNumber}/payments", method = RequestMethod.GET)
 	public String getAccountPaymentsByAccountNumber(@PathVariable String accountNumber, Model model) {
 		Boolean isAuthenticated = !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);
 		if (isAuthenticated) {
@@ -66,7 +66,7 @@ public class AccountController {
 	public String getBillSummaries(@PathVariable String accountNumber, Model model) {
 		Boolean isAuthenticated = !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);
 		if (isAuthenticated) {
-			Customer customer = (Customer)(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+			Customer customer = (Customer) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 			model.addAttribute("customer", customer);
 			model.addAttribute("billSummaries", accountService.getBillSummaries(accountNumber));
 			model.addAttribute("accountNumber", accountNumber);
@@ -80,7 +80,7 @@ public class AccountController {
 	public String getAllBillSummaries(Model model) {
 		Boolean isAuthenticated = !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);
 		if (isAuthenticated) {
-			Customer customer = (Customer)(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+			Customer customer = (Customer) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 			model.addAttribute("customer", customer);
 			model.addAttribute("billSummariesMap", accountService.getBillSummaries(customer.getId()));
 			return "bill-history";
@@ -89,27 +89,27 @@ public class AccountController {
 		}
 	}
 	
-	@RequestMapping(value = "/usages", method = RequestMethod.GET)
+	@RequestMapping(value = "/usage", method = RequestMethod.GET)
 	public String getUsageByCustomer(Model model) {
 		Boolean isAuthenticated = !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);
 		if (isAuthenticated) {
 			Customer customer = (Customer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			model.addAttribute("usages", accountService.getUsagesByCustomer(customer.getId()));
+			model.addAttribute("usageMap", accountService.getUsagesByCustomer(customer.getId()));
 			model.addAttribute("customer", customer);
-			return "usage";
+			return "usage-history";
 		} else {
 			return "redirect:/login";
 		}
 	}
 	
-	@RequestMapping(value = "/{accountNumber}/usages", method = RequestMethod.GET)
+	@RequestMapping(value = "/{accountNumber}/usage", method = RequestMethod.GET)
 	public String getUsageCustomer(@PathVariable String accountNumber, Model model) {
 		Boolean isAuthenticated = !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);
 		if (isAuthenticated) {
 			Customer customer = (Customer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			model.addAttribute("usages", accountService.getUsagesByAccount(accountNumber));
 			model.addAttribute("customer", customer);
-			return "usage";
+			return "account-usage-history";
 		} else {
 			return "redirect:/login";
 		}
