@@ -56,4 +56,8 @@ public class PaymentType {
 		return payment;
 	}
 	
+	public String toString(){
+		return this.description;
+	}
+	
 }
