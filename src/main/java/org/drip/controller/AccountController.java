@@ -23,8 +23,9 @@ public class AccountController {
 	public String getAccounts(Model model) {
 		Boolean isAuthenticated = !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);
 		if (isAuthenticated) {
-			Customer customer = (Customer) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-			model.addAttribute("accounts", customer.getId());
+			Customer customer = (Customer) (SecurityContextHolder.getContext().getAuthentication());
+			model.addAttribute("accounts", accountService.getAccounts(customer.getId()));
+			model.addAttribute("customer", customer);
 			return "accounts";
 		} else {
 			return "redirect:/login";
