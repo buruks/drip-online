@@ -21,6 +21,7 @@ import java.util.Map;
 import org.drip.config.WebTestConfig;
 import org.drip.model.BillSummary;
 import org.drip.model.Customer;
+import org.drip.model.Payment;
 import org.drip.services.AccountService;
 import org.junit.Before;
 import org.junit.Test;
@@ -73,10 +74,10 @@ public class AccountControllerTest {
 		firstBS.setCurrentAmount(Double.valueOf(18.00));
 		
 		BillSummary secondBS = new BillSummary();
-		firstBS.setBillDate(new Date());
-		firstBS.setAmountDue(Double.valueOf(45.00));
-		firstBS.setAmountPaid(Double.valueOf(25.00));
-		firstBS.setCurrentAmount(Double.valueOf(40.00));
+		secondBS.setBillDate(new Date());
+		secondBS.setAmountDue(Double.valueOf(45.00));
+		secondBS.setAmountPaid(Double.valueOf(25.00));
+		secondBS.setCurrentAmount(Double.valueOf(40.00));
 		
 		Map<String, List<BillSummary>> map = new HashMap<String, List<BillSummary>>();
 		String firstKey = "12345";
@@ -86,9 +87,8 @@ public class AccountControllerTest {
 		
 		Mockito.when(accountServiceMock.getBillSummaries(1L)).thenReturn(map);
 		
-		mockMvc.perform(get("/accounts/bills").with(user(userDetails)))
-		        .andExpect(status().isOk()).andExpect(view().name("bill-history"))
-		        .andExpect(forwardedUrl("bill-history"))
+		mockMvc.perform(get("/accounts/bills").with(user(userDetails))).andExpect(status().isOk())
+		        .andExpect(view().name("bill-history")).andExpect(forwardedUrl("bill-history"))
 		        .andExpect(model().attribute("billSummariesMap", hasKey(equalTo(firstKey))))
 		        .andExpect(model().attribute("billSummariesMap", hasKey(equalTo(secondKey))))
 		        .andExpect(model().attribute("billSummariesMap", hasValue(hasSize(1))));
@@ -109,10 +109,68 @@ public class AccountControllerTest {
 		
 		Mockito.when(accountServiceMock.getBillSummaries("1234")).thenReturn(billSummaries);
 		
-		mockMvc.perform(get("/accounts/1234/bills").with(user(userDetails))).andExpect(status().isOk()).andExpect(view().name("bill-history")).andExpect(model().attribute("billSummaries", hasSize(1)));
+		mockMvc.perform(get("/accounts/1234/bills").with(user(userDetails))).andExpect(status().isOk())
+		        .andExpect(view().name("bill-history")).andExpect(model().attribute("billSummaries", hasSize(1)));
 		
 		Mockito.verify(accountServiceMock, Mockito.times(1)).getBillSummaries("1234");
 		
+	}
+	
+	@Test
+	public void testGetAccountPaymentsByAccountNumber() throws Exception {
+		Payment payment = new Payment();
+		payment.setAmount(Double.valueOf(34.80));
+		payment.setId(3);
+		Payment payment1 = new Payment();
+		payment1.setAmount(Double.valueOf(378.00));
+		payment1.setId(1);
+		
+		List<Payment> payments = Arrays.asList(payment, payment1);
+		
+		Mockito.when(accountServiceMock.getPayments("1234")).thenReturn(payments);
+		
+		mockMvc.perform(get("/accounts/1234/payments").with(user(userDetails))).andExpect(status().isOk())
+		        .andExpect(view().name("account-payments")).andExpect(model().attribute("accountPayments", hasSize(2)));
+		
+	}
+	
+	@Test
+	public void testGetAccountPaymentsByAccountNumberNotAuthenticated() throws Exception {
+		Payment payment = new Payment();
+		payment.setAmount(Double.valueOf(34.80));
+		payment.setId(3);
+		Payment payment1 = new Payment();
+		payment1.setAmount(Double.valueOf(378.00));
+		payment1.setId(1);
+		
+		List<Payment> payments = Arrays.asList(payment, payment1);
+		
+		Mockito.when(accountServiceMock.getPayments("1234")).thenReturn(payments);
+		
+		mockMvc.perform(get("/accounts/1234/payments")).andExpect(status().is3xxRedirection());
+		
+	}
+	
+	@Test
+	public void testGetPayments() throws Exception {
+		Payment payment = new Payment();
+		payment.setAmount(20.0);
+		payment.setId(4);
+		
+		Payment payment2 = new Payment();
+		payment2.setId(2);
+		payment2.setAmount(67.0);
+		
+		Map<String, List<Payment>> paymentMap = new HashMap<String, List<Payment>>();
+		String firstAccountNumber = "123456";
+		paymentMap.put(firstAccountNumber, Arrays.asList(payment));
+		String secondAccountNumber = "1234";
+		paymentMap.put(secondAccountNumber, Arrays.asList(payment2));
+		
+		Mockito.when(accountServiceMock.getPaymentsByCustomer(1L)).thenReturn(paymentMap);
+		mockMvc.perform(get("/accounts/payments").with(user(userDetails))).andExpect(status().isOk())
+		        .andExpect(view().name("payments-history")).andExpect(model().attribute("paymentMap", hasKey("1234")))
+		        .andExpect(model().attribute("paymentMap", hasKey("123456")));
 	}
 	
 	private final class MockUserDetails extends Customer implements UserDetails {
