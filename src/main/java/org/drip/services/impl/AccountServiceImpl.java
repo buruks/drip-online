@@ -8,6 +8,7 @@ import java.util.Map;
 import org.drip.model.Account;
 import org.drip.model.BillSummary;
 import org.drip.model.Payment;
+import org.drip.model.Usage;
 import org.drip.repository.AccountRepository;
 import org.drip.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class AccountServiceImpl implements AccountService {
 	
 	@Autowired
 	AccountRepository accountRepository;
-		
+	
 	@Override
 	public List<Account> getAccounts(Long customerId) {
 		
@@ -33,12 +34,12 @@ public class AccountServiceImpl implements AccountService {
 	}
 	
 	@Override
-    public List<BillSummary> getBillSummaries(String accountNumber) {		
-	    return accountRepository.findBillSummaries(accountNumber);
-    }
-
+	public List<BillSummary> getBillSummaries(String accountNumber) {
+		return accountRepository.findBillSummaries(accountNumber);
+	}
+	
 	@Override
-    public Map<String, List<BillSummary>> getBillSummaries(Long customerId) {
+	public Map<String, List<BillSummary>> getBillSummaries(Long customerId) {
 		Map<String, List<BillSummary>> billSummariesMap = new HashMap<String, List<BillSummary>>();
 		List<BillSummary> billSummaries = accountRepository.findBillSummaries(customerId);
 		for (BillSummary billSummary : billSummaries) {
@@ -52,13 +53,13 @@ public class AccountServiceImpl implements AccountService {
 			}
 		}
 		return billSummariesMap;
-    }
-
+	}
+	
 	@Override
-    public Map<String, List<Payment>> getPaymentsByCustomer(Long customerId) {
+	public Map<String, List<Payment>> getPaymentsByCustomer(Long customerId) {
 		Map<String, List<Payment>> paymentMap = new HashMap<String, List<Payment>>();
 		List<Payment> payments = accountRepository.findPaymentsByCustomerId(customerId);
-		for(Payment payment: payments)	{
+		for (Payment payment : payments) {
 			String accountNumber = payment.getAccount().getAccountNumber();
 			if (paymentMap.containsKey(accountNumber)) {
 				paymentMap.get(accountNumber).add(payment);
@@ -68,7 +69,29 @@ public class AccountServiceImpl implements AccountService {
 				paymentMap.put(accountNumber, pay);
 			}
 		}
-	    return paymentMap;
-    }
+		return paymentMap;
+	}
+	
+	@Override
+	public Map<String, List<Usage>> getUsagesByCustomer(Long customerId) {
+		Map<String, List<Usage>> usageMap = new HashMap<String, List<Usage>>();
+		List<Usage> usages = accountRepository.findUsageByCustomerId(customerId);
+		for (Usage usage : usages) {
+			String accountNumber = usage.getAccount().getAccountNumber();
+			if (usageMap.containsKey(accountNumber)) {
+				usageMap.get(accountNumber).add(usage);
+			} else {
+				List<Usage> usageList = new ArrayList<Usage>();
+				usageList.add(usage);
+				usageMap.put(accountNumber, usageList);
+			}
+		}
+		return usageMap;
+	}
+	
+	@Override
+	public List<Usage> getUsagesByAccount(String accountNumber) {
+		return accountRepository.findUsageByAccount(accountNumber);
+	}
 	
 }

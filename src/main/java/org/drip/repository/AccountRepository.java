@@ -5,6 +5,7 @@ import java.util.List;
 import org.drip.model.Account;
 import org.drip.model.BillSummary;
 import org.drip.model.Payment;
+import org.drip.model.Usage;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -23,7 +24,13 @@ public interface AccountRepository extends CrudRepository<Account, Long> {
 	@Query("SELECT billSummary FROM BillSummary billSummary WHERE billSummary.account.accountNumber =:accountNumber")
 	List<BillSummary> findBillSummaries(@Param("accountNumber") String accountNumber);
 	
-	@Query("SELECT billSummary FROM BillSummary billSummary WHERE billSummary.account.customer.id =:customerId")
+	@Query("SELECT billSummary FROM BillSummary billSummary WHERE 	billSummary.account.customer.id =:customerId")
 	List<BillSummary> findBillSummaries(@Param("customerId") Long customerId);
+	
+	@Query("SELECT usage FROM Usage usage WHERE usage.account.accountNumber=:accountNumber")
+	List<Usage> findUsageByAccount(@Param("accountNumber") String accountNumber);
+	
+	@Query("SELECT usage FROM Usage usage WHERE usage.account.customer.id=:customerId")
+	List<Usage> findUsageByCustomerId(@Param("customerId") Long customerId);
 	
 }

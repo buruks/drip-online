@@ -15,78 +15,79 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="users")
+@Table(name = "users")
 public class User {
+	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="user_id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "user_id")
 	private long id;
 	
-	@Column(unique=true)
+	@Column(unique = true)
 	private String username;
+	
 	private String password;
-
-	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.EAGER)
-	@JoinColumn(name="user_id")
+	
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+	@JoinColumn(name = "user_id")
 	private List<Role> roles;
 	
-	@OneToOne(cascade={CascadeType.ALL})
-	@JoinColumn(name="user_id")
+	@OneToOne(cascade = { CascadeType.ALL })
+	@JoinColumn(name = "user_id")
 	private ResetHash resetHash;
 	
 	@OneToOne(mappedBy = "user")
 	private Customer customer;
 	
-	public User() {	
-	}    
-
+	public User() {
+	}
+	
 	public User(String username, String password) {
 		this.username = username;
 		this.password = password;
 	}
 	
 	public long getId() {
-    	return id;
-    }
-
+		return id;
+	}
 	
-    public void setId(long id) {
-    	this.id = id;
-    } 
+	public void setId(long id) {
+		this.id = id;
+	}
 	
-    public String getUsername() {
-    	return username;
-    }
-  
-    public void setUsername(String email) {
-    	this.username = email;
-    }
+	public String getUsername() {
+		return username;
+	}
 	
-    public String getPassword() {
-    	return password;
-    }
+	public void setUsername(String email) {
+		this.username = email;
+	}
 	
-    public void setPassword(String password) {
-    	this.password = password;
-    }
-
+	public String getPassword() {
+		return password;
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
 	public List<Role> getRoles() {
-    	return roles;
-    }
+		return roles;
+	}
 	
-    public void setRoles(List<Role> authorities) {
-    	this.roles = authorities;
-    }
-    
-    public ResetHash getResetHash() {
-    	return resetHash;
-    }
-    
-    public void setResetHash(ResetHash resetHash) {
-    	this.resetHash = resetHash;
-    }
-    
-    public void setCustomer(Customer customer) {
-    	this.customer = customer;
-    }
+	public void setRoles(List<Role> authorities) {
+		this.roles = authorities;
+	}
+	
+	public ResetHash getResetHash() {
+		return resetHash;
+	}
+	
+	public void setResetHash(ResetHash resetHash) {
+		this.resetHash = resetHash;
+	}
+	
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
 }

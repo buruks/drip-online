@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class AccountController {
 	
 	AccountService accountService;
-	
+
 	@Autowired
 	public AccountController(AccountService accountService) {
 		this.accountService = accountService;
 	}
-	
+
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String getAccounts(Model model) {
 		Boolean isAuthenticated = !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);
@@ -79,5 +79,31 @@ public class AccountController {
 		} else {
 			return "redirect:/login";
 		}
-	}	
+	}
+	
+	@RequestMapping(value = "/usages", method = RequestMethod.GET)
+	public String getUsageByCustomer(Model model) {
+		Boolean isAuthenticated = !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);
+		if (isAuthenticated) {
+			Customer customer = (Customer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			model.addAttribute("usages", accountService.getUsagesByCustomer(customer.getId()));
+			model.addAttribute("customer", customer);
+			return "usage";
+		} else {
+			return "redirect:/login";
+		}
+	}
+	
+	@RequestMapping(value = "/{accountNumber}/usages", method = RequestMethod.GET)
+	public String getUsageCustomer(@PathVariable String accountNumber, Model model) {
+		Boolean isAuthenticated = !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);
+		if (isAuthenticated) {
+			Customer customer = (Customer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			model.addAttribute("usages", accountService.getUsagesByAccount(accountNumber));
+			model.addAttribute("customer", customer);
+			return "usage";
+		} else {
+			return "redirect:/login";
+		}
+	}
 }
