@@ -52,7 +52,10 @@ public class AccountController {
 	public String getAccountPaymentsByAccountNumber(@PathVariable String accountNumber, Model model) {
 		Boolean isAuthenticated = !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);
 		if (isAuthenticated) {
+			Customer customer = (Customer) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 			model.addAttribute("accountPayments", accountService.getPayments(accountNumber));
+			model.addAttribute("customer", customer);
+			model.addAttribute("accountNumber", accountNumber);
 			return "account-payments";
 		} else {
 			return "redirect:/login";
