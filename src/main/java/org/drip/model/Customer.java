@@ -153,7 +153,7 @@ public class Customer {
 	}
 	
 	public String getFullName() {
-		if (businessName != null || !businessName.trim().isEmpty()) {
+		if (businessName != null && !businessName.trim().isEmpty()) {
 			return businessName;
 		} else
 			return firstName + " " + lastName;
