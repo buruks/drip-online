@@ -15,9 +15,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/accounts")
 public class AccountController {
 	
-	@Autowired
 	AccountService accountService;
 	
+	@Autowired
+	public AccountController(AccountService accountService) {
+		this.accountService = accountService;
+	}
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String getAccounts(Model model) {
@@ -43,7 +46,7 @@ public class AccountController {
 			return "redirect:/login";
 		}
 	}
-	
+
 	@RequestMapping(value="/{accountNumber}/payments", method = RequestMethod.GET)
 	public String getAccountPaymentsByAccountNumber(@PathVariable String accountNumber, Model model) {
 		Boolean isAuthenticated = !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);
@@ -70,8 +73,8 @@ public class AccountController {
 	public String getAllBillSummaries(Model model) {
 		Boolean isAuthenticated = !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);
 		if (isAuthenticated) {
-			Customer customer = (Customer)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			model.addAttribute("billSummaries", accountService.getBillSummaries(customer.getId()));
+			Customer customer = (Customer)(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+			model.addAttribute("billSummariesMap", accountService.getBillSummaries(customer.getId()));
 			return "bill-history";
 		} else {
 			return "redirect:/login";

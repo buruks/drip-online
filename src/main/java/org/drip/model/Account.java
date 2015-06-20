@@ -43,7 +43,7 @@ public class Account {
 	private Customer customer;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "account")
-	public List<Payment> payment;
+	private List<Payment> payments;
 	
 	public int getId() {
 		return id;
@@ -101,7 +101,7 @@ public class Account {
 		this.customer = customer;
 	}
 	
-	public List<Payment> getPayment() {
-		return payment;
+	public List<Payment> getPayments() {
+		return payments;
 	}
 }
