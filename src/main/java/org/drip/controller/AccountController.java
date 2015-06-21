@@ -109,6 +109,7 @@ public class AccountController {
 			Customer customer = (Customer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			model.addAttribute("usages", accountService.getUsagesByAccount(accountNumber));
 			model.addAttribute("customer", customer);
+			model.addAttribute("accountNumber", accountNumber);
 			return "account-usage-history";
 		} else {
 			return "redirect:/login";
