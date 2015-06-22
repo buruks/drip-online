@@ -12,14 +12,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "usage")
+@Table(name = "account_usage")
 public class Usage {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(name = "usage")
+	@Column(name = "usage_amount")
 	private Double usage;
 	
 	@Column(name = "start_date")
