@@ -16,7 +16,7 @@ import javax.persistence.Table;
 public class Payment {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
 	@Column(name = "payment_date")
