@@ -57,7 +57,7 @@
             <div class="login-content">
                 <form th:action="@{/register}" method="POST" th:object="${user}" class="margin-bottom-0">
                 		<!-- begin global errors -->
-			            <div th:if="${#fields.hasGlobalErrors()}">
+			            <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger">
 			            	<p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
 			            </div>
 			            <!-- end global errors --> 
@@ -65,7 +65,7 @@
                          <div class="row m-b-15">
                             <div class="col-md-12">
                                 <input type="text" class="form-control" th:field="*{accountNumber}" placeholder="Account Number" />
-                            	<p th:if="${#fields.hasErrors('accountNumber')}" th:errors="*{accountNumber}"></p>
+                            	<p th:if="${#fields.hasErrors('accountNumber')}" th:errors="*{accountNumber}" class="alert alert-danger"></p>
                             </div>
                         </div>
                         <label class="control-label">Name</label>
@@ -87,25 +87,25 @@
                         <div class="row m-b-15">
                             <div class="col-md-12">
                                 <input type="text" class="form-control" th:field="*{email}" placeholder="Email address" />
-                                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+                                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="alert alert-danger"></p>
                             </div>
                         </div>
                         <label class="control-label">Phone Number</label>
                         <div class="row row-space-10">
                             <div class="col-md-6 m-b-15">
                                 <input type="text" class="form-control" th:field="*{areaCode}" placeholder="Phone Area Code" />
-                                <p th:if="${#fields.hasErrors('areaCode')}" th:errors="*{areaCode}"></p>
+                                <p th:if="${#fields.hasErrors('areaCode')}" th:errors="*{areaCode}" class="alert alert-danger"></p>
                             </div>
                             <div class="col-md-6 m-b-15">
                                 <input type="text" class="form-control" th:field="*{phoneNumber}" placeholder="Phone Number" />
-                                <p th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></p>
+                                <p th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="alert alert-danger"></p>
                             </div>
                         </div>
                         <label class="control-label">Mail Zip Code</label>
                         <div class="row row-space-10">
                             <div class="col-md-6 m-b-15">
                                 <input type="text" class="form-control" th:field="*{zipCode}" placeholder="Zip Code" id="zipCode" />
-                                <p th:if="${#fields.hasErrors('zipCode')}" th:errors="*{zipCode}"></p>
+                                <p th:if="${#fields.hasErrors('zipCode')}" th:errors="*{zipCode}" class="alert alert-danger"></p>
                             </div>
                             <div class="col-md-6 m-b-15">
                                 <label class="city"></label>
@@ -116,7 +116,7 @@
                         <div class="row m-b-15">
                             <div class="col-md-12">
                                 <input type="password" class="form-control" th:field="*{password}" placeholder="Password" />
-                                <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+                                <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="alert alert-danger"></p>
                             </div>
                         </div>
 
