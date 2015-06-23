@@ -1,8 +1,13 @@
 package org.drip.controller;
 
+import org.drip.model.Customer;
 import org.drip.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -44,9 +49,13 @@ public class CustomerController {
 		if (result.hasErrors()) {
 			return "register";
 		} else {
-			customerService.registerCustomer(webUser);
+			Customer customer = customerService.registerCustomer(webUser);
+			Authentication auth = 
+					  new UsernamePasswordAuthenticationToken(customer, null, AuthorityUtils.createAuthorityList("USER"));
+
+			SecurityContextHolder.getContext().setAuthentication(auth);
 			redirectAttributes.addAttribute("success", "saved.success");
-			return "redirect:login";
+			return "redirect:/accounts";
 		}		
 	}
 	
