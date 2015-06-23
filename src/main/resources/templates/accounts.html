@@ -108,7 +108,7 @@
                                         <p><strong>Account Balance (USD): </strong><span th:text="${#numbers.formatDecimal(account.currentBalance,0,'COMMA',2,'POINT')}"></span> </p>
                                         
                                         <p>Your last bill was sent on <span th:text="${#dates.format(account.lastBilled, #messages.msg('app.dateformat'))}"></span> in the amount of USD.<span th:text="${#numbers.formatDecimal(account.currentBalance,0,'COMMA',2,'POINT')}"></span>. You can view your last bill by 
-                                        clicking <a class="panel-link" href="">here</a></p>
+                                        clicking <a class="panel-link" th:href="@{'/accounts/'+${account.accountNumber}+'/bills'}">here</a></p>
                                         <p><a class="panel-link" th:href="@{'/accounts/'+${account.accountNumber}+'/payments'}">payment history</a></p>
                                         <p><a class="panel-link" th:href="@{'/accounts/'+${account.accountNumber}+'/bills'}">billing history</a></p>
                                         <p><a class="panel-link" th:href="@{'/accounts/'+${account.accountNumber}+'/usage'}">usage history</a></p>

@@ -24,12 +24,12 @@ public class CustomerController {
 	
 	@RequestMapping(value="/")
 	public String root() {
-		return "redirect:index";
+		return "redirect:/accounts";
 	}
 	
 	@RequestMapping(value="/index")
 	public String index() {
-		return "index";
+		return "redirect:/accounts";
 	}
 	
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
