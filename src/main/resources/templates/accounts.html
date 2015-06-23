@@ -72,13 +72,8 @@
             <div class="home-content">
                 <div class="sidebar">
                     <ul class="nav nav-pills nav-stacked">
-                      <li role="presentation" ><a href="/">Home</a></li>
                       <li role="presentation" class="active"><a href="/accounts/">Account Information</a></li>
-                      <li role="presentation"><a href="paymentHistory.html">Payment History</a></li>
-                      <li role="presentation"><a href="#">Consumption Report</a></li>
-                      <li role="presentation"><a href="billingHistory.html">Billing History</a></li>
-                      <li role="presentation"><a href="#">Service Summary</a></li>
-                      <li role="presentation"><a href="login.html">Log Off</a></li>
+                      <li role="presentation"><a href="/login/">Log Off</a></li>
                     </ul>
                 </div>
                 <div class="maincontent">
@@ -116,6 +111,7 @@
                                         clicking <a class="panel-link" href="">here</a></p>
                                         <p><a class="panel-link" th:href="@{'/accounts/'+${account.accountNumber}+'/payments'}">payment history</a></p>
                                         <p><a class="panel-link" th:href="@{'/accounts/'+${account.accountNumber}+'/bills'}">billing history</a></p>
+                                        <p><a class="panel-link" th:href="@{'/accounts/'+${account.accountNumber}+'/usage'}">usage history</a></p>
                                     </div>
                                 </div>
                             </div>
