@@ -6509,3 +6509,30 @@ body.flat-black {
 .table-responsive{
   overflow-x:hidden;
 }
+.logout{
+    padding: 8px 20px;
+    line-height: 20px;
+    color: #FFF;
+    font-weight: bolder;
+    width:220px;
+    text-align:left;
+    border:none;
+    border-radius:3px;
+    background: #687376 none repeat scroll 0% 0%;
+}
+.logout:focus{
+    background: #232A2F none repeat scroll 0% 0%;
+    color: #013ADF;
+    width:220px;
+    text-align:left;
+    border:none;
+    border-radius:3px;
+}
+.logout:hover{
+    background: #232A2F none repeat scroll 0% 0%;
+    color: #013ADF;
+    width:220px;
+    text-align:left;
+    border:none;
+    border-radius:3px;
+}
