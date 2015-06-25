@@ -54,7 +54,7 @@ public class CustomerController {
 					  new UsernamePasswordAuthenticationToken(customer, null, AuthorityUtils.createAuthorityList("USER"));
 
 			SecurityContextHolder.getContext().setAuthentication(auth);
-			redirectAttributes.addAttribute("success", "saved.success");
+			redirectAttributes.addFlashAttribute("success", "saved.success");
 			return "redirect:/accounts";
 		}		
 	}
