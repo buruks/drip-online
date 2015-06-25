@@ -14,6 +14,7 @@ import org.drip.services.CustomerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.mail.MailException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping(value="/password")
@@ -35,6 +37,9 @@ public class PasswordController {
 	@Autowired
 	CustomerService userService;
 	
+	@Autowired
+	MessageSource messageSource;
+	
 	@RequestMapping(value="/forgot", method=RequestMethod.GET)
 	public String get(Model model) {
 		model.addAttribute("email", "");
@@ -43,7 +48,7 @@ public class PasswordController {
 	
 	@RequestMapping(value = "/forgot", method = RequestMethod.POST)
 	public String sendLink(HttpServletRequest request, @ModelAttribute("email") String email, BindingResult result,
-	                       Model model) {
+	                       Model model, RedirectAttributes redirectAttributes) {
 		ValidationUtils.validateEmailString(email, result);
 		if (!result.hasErrors()) {
 			ValidationUtils.validateEmailExists(email, userService, result);
@@ -57,7 +62,8 @@ public class PasswordController {
 					+ ":" + request.getServerPort() + "/password/reset?hash=" + hash;			
 			try {
 				passwordService.sendResetLink(email, resetUrl);
-				return "redirect:/index";
+				redirectAttributes.addFlashAttribute("sent", messageSource.getMessage("message.sent", new Object[] { email }, null));
+				return "redirect:/login";
 			}
 			catch (MessagingException ex) {
 				log.error("Error while setting up mail.\n" + ex);
