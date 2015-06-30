@@ -6536,3 +6536,19 @@ body.flat-black {
     border:none;
     border-radius:3px;
 }
+.error {
+	height: 250px;
+	font-weight: bolder;
+	border: white solid 1px;
+	border-style: dashed;
+	font-size: 13px;
+	margin-left: -100px;
+	padding: 20px;
+	color: red;
+}
+.error-head{
+	padding-bottom:10px;
+	color: white;
+	font-size: 15px;
+	text-align:center;
+}
