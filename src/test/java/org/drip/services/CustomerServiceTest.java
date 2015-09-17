@@ -9,6 +9,7 @@ import junit.framework.Assert;
 
 import org.apache.commons.lang.StringUtils;
 import org.drip.controller.WebUser;
+import org.drip.exceptions.CustomerAlreadyRegisteredException;
 import org.drip.model.Customer;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,5 +75,22 @@ public class CustomerServiceTest extends AbstractServiceTest {
 		assertEquals(true, registeredCustomer.isRegistered());
 		assertEquals("john.doe@testmail.com", registeredCustomer.getUser().getUsername());
 		assertFalse(StringUtils.equalsIgnoreCase(webUser.getPassword(), registeredCustomer.getUser().getPassword()));
+	}
+	
+	@Test(expected= CustomerAlreadyRegisteredException.class) 
+	@Transactional
+	public void testRegisterRegisteredCustomer() {
+		Customer alreadyRegisteredCustomer =  customerService.getCustomer("Jane", "Doe", "456789", "123457", "1234567810", "123"); 
+		WebUser webUser = new WebUser();
+		webUser.setAccountNumber(alreadyRegisteredCustomer.getAccounts().get(0).getAccountNumber());
+		webUser.setAreaCode(alreadyRegisteredCustomer.getAreaCode());
+		webUser.setBusinessName(alreadyRegisteredCustomer.getBusinessName());
+		webUser.setEmail(alreadyRegisteredCustomer.getEmail());
+		webUser.setFirstName(alreadyRegisteredCustomer.getFirstName());
+		webUser.setLastName(alreadyRegisteredCustomer.getLastName());
+		webUser.setPhoneNumber(alreadyRegisteredCustomer.getPhoneNumber());
+		webUser.setZipCode(alreadyRegisteredCustomer.getZipCode());
+		Customer customer = customerService.registerCustomer(webUser);
+		assertEquals(false, customer.isRegistered());
 	}
 }

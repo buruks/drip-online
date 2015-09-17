@@ -3,6 +3,7 @@ package org.drip.services.impl;
 import org.apache.commons.lang.StringUtils;
 import org.drip.DripUtils;
 import org.drip.controller.WebUser;
+import org.drip.exceptions.CustomerAlreadyRegisteredException;
 import org.drip.model.Customer;
 import org.drip.model.User;
 import org.drip.repository.CustomerRepository;
@@ -37,13 +38,16 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
 	@Override
-    public Customer registerCustomer(WebUser webUser) {
+    public Customer registerCustomer(WebUser webUser) throws CustomerAlreadyRegisteredException {
 		Customer customer = null;
 		if (!StringUtils.isBlank(webUser.getFirstName()) && !StringUtils.isBlank(webUser.getLastName())) {
 			customer = getCustomer(webUser.getFirstName(), webUser.getLastName(), webUser.getAccountNumber(), webUser.getAreaCode(), webUser.getPhoneNumber(), webUser.getZipCode());
 		}
 		if (!StringUtils.isBlank(webUser.getBusinessName())) {
 			customer = getCustomer(webUser.getBusinessName(), webUser.getAccountNumber(), webUser.getAreaCode(), webUser.getPhoneNumber(), webUser.getZipCode());
+		}
+		if (customer.isRegistered()) {
+			throw new CustomerAlreadyRegisteredException(webUser.getAccountNumber());
 		}
 		customer.setEmail(webUser.getEmail());
 		String encodedPassword = DripUtils.encryptPassword(webUser.getPassword());

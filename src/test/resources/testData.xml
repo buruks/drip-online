@@ -10,6 +10,7 @@
     <account id="1" account_number="123456" customer_id="2" />
     <account id="2" account_number="123457" customer_id="1" />
     <account id="3" account_number="123458" customer_id="2" />
+    <account id="4" account_number="456789" customer_id="3" />
     
     <reset_hash reset_hash_id="1" hash="d41d8cd98f00b204e9800998ecf8427e" expire_date="[expire_date]" user_id="1" used="0" />
     

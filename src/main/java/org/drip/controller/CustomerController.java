@@ -1,11 +1,13 @@
 package org.drip.controller;
 
+import org.drip.exceptions.CustomerAlreadyRegisteredException;
 import org.drip.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,9 +46,14 @@ public class CustomerController {
 		if (result.hasErrors()) {
 			return "register";
 		} else {
-			customerService.registerCustomer(webUser);
-			redirectAttributes.addAttribute("success", "saved.success");
-			return "redirect:login";
+			try {
+				customerService.registerCustomer(webUser);
+				redirectAttributes.addAttribute("success", "saved.success");
+				return "redirect:login";
+			} catch (CustomerAlreadyRegisteredException ex ) {
+				result.addError(new ObjectError("webUser",ex.getMessage()));
+				return "register";				
+			}			
 		}		
 	}
 	

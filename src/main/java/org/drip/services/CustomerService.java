@@ -1,6 +1,7 @@
 package org.drip.services;
 
 import org.drip.controller.WebUser;
+import org.drip.exceptions.CustomerAlreadyRegisteredException;
 import org.drip.model.Customer;
 
 public interface CustomerService {
@@ -14,5 +15,5 @@ public interface CustomerService {
 	
 	Customer saveCustomer(Customer customer);
 	
-	Customer registerCustomer(WebUser webUser);
+	Customer registerCustomer(WebUser webUser) throws CustomerAlreadyRegisteredException;
 }
