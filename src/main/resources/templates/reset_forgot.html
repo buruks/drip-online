@@ -5,7 +5,7 @@
 <!--<![endif]-->
 <head>
     <meta charset="utf-8" />
-    <title>Color Admin | Login Page</title>
+    <title>NWCWD | Reset Password</title>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <meta content="" name="description" />
     <meta content="" name="author" />
@@ -61,7 +61,7 @@
                     <hr/>
                 </div>
                 <!-- begin global errors -->
-	            <p th:if="${errorSaving}" th:text="#{(${errorSaving})}">...</p>
+	            <p th:if="${errorSaving}" th:text="#{(${errorSaving})}" class="alert alert-danger">...</p>
 	            <!-- end global errors --> 
                     <div class="form-group m-b-20">
                         <input type="text" class="form-control input-lg" name="password" placeholder="password" required="required" />

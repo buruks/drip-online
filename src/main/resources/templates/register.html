@@ -5,24 +5,24 @@
 <!--<![endif]-->
 <head>
     <meta charset="utf-8" />
-    <title>Color Admin | Login Page</title>
+    <title>NWCWD | Registration</title>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <meta content="" name="description" />
     <meta content="" name="author" />
     
     <!-- ================== BEGIN BASE CSS STYLE ================== -->
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
-    <link href="assets/plugins/jquery-ui/themes/base/minified/jquery-ui.min.css" rel="stylesheet" />
-    <link href="assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="assets/css/animate.min.css" rel="stylesheet" />
-    <link href="assets/css/style.css" rel="stylesheet" />
-    <link href="assets/css/style-responsive.min.css" rel="stylesheet" />
-    <link href="assets/css/theme/default.css" rel="stylesheet" id="theme" />
+    <link href="/assets/plugins/jquery-ui/themes/base/minified/jquery-ui.min.css" rel="stylesheet" />
+    <link href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="/assets/css/animate.min.css" rel="stylesheet" />
+    <link href="/assets/css/style.css" rel="stylesheet" />
+    <link href="/assets/css/style-responsive.min.css" rel="stylesheet" />
+    <link href="/assets/css/theme/default.css" rel="stylesheet" id="theme" />
     <!-- ================== END BASE CSS STYLE ================== -->
     
     <!-- ================== BEGIN BASE JS ================== -->
-    <script src="assets/plugins/pace/pace.min.js"></script>
+    <script src="/assets/plugins/pace/pace.min.js"></script>
     <!-- ================== END BASE JS ================== -->
 </head>
 <body class="pace-top">
@@ -31,7 +31,7 @@
     <!-- end #page-loader -->
     
     <div class="login-cover">
-        <div class="login-cover-image"><img src="assets/img/login-bg/bg-3.jpg" alt="" /></div>
+        <div class="login-cover-image"><img src="/assets/img/login-bg/bg-3.jpg" alt="" /></div>
         <div class="login-cover-bg"></div>
     </div>
     <!-- begin #page-container -->
@@ -41,7 +41,7 @@
             <!-- begin brand -->
             <div class="signup-header">
                 <div class="icon pull-left">
-                    <img src="assets\img\logo\nwcwd_sm_clr.gif" width="130" height="120"/>
+                    <img src="/assets/img/logo/nwcwd_sm_clr.gif" width="130" height="120"/>
                 </div>
 
                 <div class="brand pull-left">
@@ -57,7 +57,7 @@
             <div class="login-content">
                 <form th:action="@{/register}" method="POST" th:object="${user}" class="margin-bottom-0">
                 		<!-- begin global errors -->
-			            <div th:if="${#fields.hasGlobalErrors()}">
+			            <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger">
 			            	<p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
 			            </div>
 			            <!-- end global errors --> 
@@ -65,7 +65,7 @@
                          <div class="row m-b-15">
                             <div class="col-md-12">
                                 <input type="text" class="form-control" th:field="*{accountNumber}" placeholder="Account Number" />
-                            	<p th:if="${#fields.hasErrors('accountNumber')}" th:errors="*{accountNumber}"></p>
+                            	<p th:if="${#fields.hasErrors('accountNumber')}" th:errors="*{accountNumber}" class="alert alert-danger"></p>
                             </div>
                         </div>
                         <label class="control-label">Name</label>
@@ -87,25 +87,25 @@
                         <div class="row m-b-15">
                             <div class="col-md-12">
                                 <input type="text" class="form-control" th:field="*{email}" placeholder="Email address" />
-                                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+                                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="alert alert-danger"></p>
                             </div>
                         </div>
                         <label class="control-label">Phone Number</label>
                         <div class="row row-space-10">
                             <div class="col-md-6 m-b-15">
                                 <input type="text" class="form-control" th:field="*{areaCode}" placeholder="Phone Area Code" />
-                                <p th:if="${#fields.hasErrors('areaCode')}" th:errors="*{areaCode}"></p>
+                                <p th:if="${#fields.hasErrors('areaCode')}" th:errors="*{areaCode}" class="alert alert-danger"></p>
                             </div>
                             <div class="col-md-6 m-b-15">
                                 <input type="text" class="form-control" th:field="*{phoneNumber}" placeholder="Phone Number" />
-                                <p th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></p>
+                                <p th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="alert alert-danger"></p>
                             </div>
                         </div>
                         <label class="control-label">Mail Zip Code</label>
                         <div class="row row-space-10">
                             <div class="col-md-6 m-b-15">
                                 <input type="text" class="form-control" th:field="*{zipCode}" placeholder="Zip Code" id="zipCode" />
-                                <p th:if="${#fields.hasErrors('zipCode')}" th:errors="*{zipCode}"></p>
+                                <p th:if="${#fields.hasErrors('zipCode')}" th:errors="*{zipCode}" class="alert alert-danger"></p>
                             </div>
                             <div class="col-md-6 m-b-15">
                                 <label class="city"></label>
@@ -116,7 +116,7 @@
                         <div class="row m-b-15">
                             <div class="col-md-12">
                                 <input type="password" class="form-control" th:field="*{password}" placeholder="Password" />
-                                <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+                                <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="alert alert-danger"></p>
                             </div>
                         </div>
 
@@ -150,22 +150,22 @@
     <!-- end page container -->
     
     <!-- ================== BEGIN BASE JS ================== -->
-    <script src="assets/plugins/jquery/jquery-1.9.1.min.js"></script>
-    <script src="assets/plugins/jquery/jquery-migrate-1.1.0.min.js"></script>
-    <script src="assets/plugins/jquery-ui/ui/minified/jquery-ui.min.js"></script>
-    <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/assets/plugins/jquery/jquery-1.9.1.min.js"></script>
+    <script src="/assets/plugins/jquery/jquery-migrate-1.1.0.min.js"></script>
+    <script src="/assets/plugins/jquery-ui/ui/minified/jquery-ui.min.js"></script>
+    <script src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
     <!--[if lt IE 9]>
-        <script src="assets/crossbrowserjs/html5shiv.js"></script>
-        <script src="assets/crossbrowserjs/respond.min.js"></script>
-        <script src="assets/crossbrowserjs/excanvas.min.js"></script>
+        <script src="/assets/crossbrowserjs/html5shiv.js"></script>
+        <script src="/assets/crossbrowserjs/respond.min.js"></script>
+        <script src="/assets/crossbrowserjs/excanvas.min.js"></script>
     <![endif]-->
-    <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-    <script src="assets/plugins/jquery-cookie/jquery.cookie.js"></script>
+    <script src="/assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="/assets/plugins/jquery-cookie/jquery.cookie.js"></script>
     <!-- ================== END BASE JS ================== -->
     
     <!-- ================== BEGIN PAGE LEVEL JS ================== -->
-    <script src="assets/js/apps.min.js"></script>
-    <script src="assets/js/custom.js"></script>
+    <script src="/assets/js/apps.min.js"></script>
+    <script src="/assets/js/custom.js"></script>
     <!-- ================== END PAGE LEVEL JS ================== -->
 
     <script>

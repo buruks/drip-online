@@ -17,7 +17,7 @@ import javax.persistence.Table;
 public class PaymentType {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
 	private String code;
@@ -54,6 +54,10 @@ public class PaymentType {
 	
 	public List<Payment> getPayment() {
 		return payment;
+	}
+	
+	public String toString(){
+		return this.description;
 	}
 	
 }

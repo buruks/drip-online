@@ -27,4 +27,8 @@
     <payment id="3" amount="50" payment_date="2012-12-20"  update_date="2012-12-20" account_id="3" payment_type_id="2" />
     <payment id="4" amount="20" payment_date="2013-12-20"  update_date="2014-12-20" account_id="3" payment_type_id="3" />
    
+   	<account_usage id="1"  usage_amount="15.00"  start_date="2012-12-20" end_date="2012-12-20" account_id="1" />
+    <account_usage id="2"  usage_amount="15.00"  start_date="2012-12-20" end_date="2012-12-20" account_id="1" />
+    <account_usage id="3"  usage_amount="15.00"  start_date="2012-12-20" end_date="2012-12-20" account_id="3" />
+   
 </dataset>

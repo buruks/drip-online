@@ -1,9 +1,14 @@
 package org.drip.controller;
 
 import org.drip.exceptions.CustomerAlreadyRegisteredException;
+import org.drip.model.Customer;
 import org.drip.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,12 +31,12 @@ public class CustomerController {
 	
 	@RequestMapping(value="/")
 	public String root() {
-		return "redirect:index";
+		return "redirect:/accounts";
 	}
 	
 	@RequestMapping(value="/index")
 	public String index() {
-		return "index";
+		return "redirect:/accounts";
 	}
 	
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
@@ -46,19 +51,29 @@ public class CustomerController {
 		if (result.hasErrors()) {
 			return "register";
 		} else {
+
 			try {
-				customerService.registerCustomer(webUser);
-				redirectAttributes.addAttribute("success", "saved.success");
-				return "redirect:login";
+				Customer customer = customerService.registerCustomer(webUser);
+				Authentication auth = 
+						  new UsernamePasswordAuthenticationToken(customer, null, AuthorityUtils.createAuthorityList("USER"));
+
+				SecurityContextHolder.getContext().setAuthentication(auth);
+				redirectAttributes.addFlashAttribute("success", "saved.success");
+				return "redirect:/accounts";
 			} catch (CustomerAlreadyRegisteredException ex ) {
 				result.addError(new ObjectError("webUser",ex.getMessage()));
 				return "register";				
-			}			
+			}	
 		}		
 	}
 	
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public String login() {
 		return "login";
+	}
+	
+	@RequestMapping(value="/error", method=RequestMethod.GET)
+	public String error() {
+		return "error";
 	}
 }

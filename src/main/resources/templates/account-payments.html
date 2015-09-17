@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8" />
+    <title>NWCWD | Payment History</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    
+    <!-- ================== BEGIN BASE CSS STYLE ================== -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet"/>
+    <link href="/assets/plugins/jquery-ui/themes/base/minified/jquery-ui.min.css" rel="stylesheet" />
+    <link href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="/assets/css/animate.min.css" rel="stylesheet" />
+    <link href="/assets/css/style.css" rel="stylesheet" />
+    <link href="/assets/css/style-responsive.min.css" rel="stylesheet" />
+    <link href="/assets/css/theme/default.css" rel="stylesheet" id="theme" />
+    <!-- ================== END BASE CSS STYLE ================== -->
+    
+    <!-- ================== BEGIN BASE JS ================== -->
+    <script src="/assets/plugins/pace/pace.min.js"></script>
+
+    <!-- ================== END BASE JS ================== -->
+
+    <!-- ================== favicon ================== -->
+    <link rel="shortcut icon" href="/favicon.ico"/>
+    <!-- ============================================= -->
+</head>
+<body class="pace-top">
+    <!-- begin #page-loader -->
+    <div id="page-loader" class="fade in"><span class="spinner"></span></div>
+    <!-- end #page-loader -->
+    
+    <div class="login-cover">
+        <div class="login-cover-image"><img src="/assets/img/login-bg/bg-3.jpg" alt="" /></div>
+        <div class="login-cover-bg"></div>
+    </div>
+    <!-- begin #page-container -->
+    <div id="page-container" class="fade">
+        <!-- begin login -->
+        <div class="home home-v2" data-pageload-addclass="animated fadeIn">
+            <!-- begin brand -->
+                <div class="home-header">
+                    <div class="icon pull-left">
+                        <img src="/assets/img/logo/nwcwd_sm_clr.gif" width="150" height="150"/>
+                    </div>
+
+                    <div class="brand pull-left">
+                        <strong class="company">North Weld County Water District</strong>
+                        <small><strong>PO Box: </strong> 56 Lucerne, CO 80646</small>
+                        <small><strong>Phone: </strong> 970.356.3020 <strong> Fax: </strong> 970.395.0997 </small>
+                        <small><strong>E-mail: </strong> water@nwcwd.org</small>
+                        <small class="motto">Serving it's customers in Northern Weld and Eastern Larimer Counties since 1962</small>
+                    </div>
+                    <div class="col-md-4 pull-right customerdetail">
+	                    <p th:text="${customer.fullName}"></p>
+	                    <p th:text="${customer.email}"></p>
+	                    <p>(<span th:text="${customer.areaCode}"></span>) - <span th:text="${customer.phoneNumber}"></span></p>
+                    </div>
+                    <span class="clear"></span>
+
+                </div>
+                <div class="separator"><hr/></div>
+                <!-- end brand -->
+
+            <div class="home-content">
+                <div class="sidebar">
+                    <ul class="nav nav-pills nav-stacked">
+						<li role="presentation" class="active"><a href="/accounts/">Account Information</a></li>
+						<li role="presentation">
+	                      	<form th:action="@{/logout}" method="POST">
+	                      		<input type="submit" value="Log out" class="logout"/>
+	                      		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+	                      	</form>
+                        </li>
+                    </ul>
+                </div>
+                <div class="maincontent">
+                    
+                    <div class="col-md-12 content-head">
+                        <div><strong><u>Payment History:</u></strong></div>
+                        
+                    </div>
+                    
+                    <!-- begin col-12 -->
+                    <div class="col-md-12">
+                        <div class="panel-group" id="accordion">
+						
+                            <div class="panel panel-inverse overflow-hidden">
+                                <div class="panel-heading">
+                                    <div class="panel-heading-btn">
+                                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-repeat"></i></a>
+                                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                                        <a href="" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+                                    </div>
+                                    <h3 class="panel-title">
+                                        <a class="accordion-toggle accordion-toggle-styled" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                            Payment History for A/C # <span th:text="${accountNumber}"></span>
+                                        </a>
+                                    </h3>
+                                    
+                                </div>
+                                
+                                <div id="collapseOne" class="panel-collapse in">
+                                    <div class="panel-body">
+										<div th:if="${#lists.isEmpty(accountPayments)}"> 
+					                   		<p>Sorry, no payment has been made against this account yet!</p>
+					                   	</div>
+										
+                                        <div th:if="${not #lists.isEmpty(accountPayments)}" class="table-responsive">
+                                    
+                                            <table id="data-table" class="table table-striped table-bordered table-condensed table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Payment Date</th>
+		                                                <th>Payment Amount (USD)</th>
+		                                                <th>Payment Type</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr th:each="accountPayment, iterStat: ${accountPayments}" th:class="${iterStat.odd}? 'odd':'even'">
+                                                        <td th:text="${#dates.format(accountPayment.paymentDate, #messages.msg('app.dateformat'))}"></td>
+                                                        <td th:text="${#numbers.formatDecimal(accountPayment.amount,0,'COMMA',2,'POINT')}"></td>
+                                                        <td th:text="${accountPayment.paymentType}"></td>
+                                                    </tr>
+                                                 </tbody>
+                                            </table>
+                                        </div>
+                                        
+                                        <p><a href="/accounts/">&#60;&#60; Back To My Accounts</a></p>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+						</div>
+                    </div>
+                </div>
+                
+            </div>
+			
+			<!-- begin #footer -->
+            <div class="footer">
+                <p class="copyright">&copy; Copyright NWCWD 2015</p>
+            </div>
+            <!-- end #footer -->
+            
+        </div>
+        <!-- end login -->
+        	
+        
+    </div>
+    <!-- end page container -->
+    
+    <!-- ================== BEGIN BASE JS ================== -->
+    <script src="/assets/plugins/jquery/jquery-1.9.1.min.js"></script>
+    <script src="/assets/plugins/jquery/jquery-migrate-1.1.0.min.js"></script>
+    <script src="/assets/plugins/jquery-ui/ui/minified/jquery-ui.min.js"></script>
+    <script src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <!--[if lt IE 9]>
+        <script src="/assets/crossbrowserjs/html5shiv.js"></script>
+        <script src="/assets/crossbrowserjs/respond.min.js"></script>
+        <script src="/assets/crossbrowserjs/excanvas.min.js"></script>
+    <![endif]-->
+    <script src="/assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="/assets/plugins/jquery-cookie/jquery.cookie.js"></script>
+    <!-- ================== END BASE JS ================== -->
+
+    <!-- DataTables JavaScript -->
+    <script src="/assets/plugins/DataTables/js/jquery.dataTables.min.js"></script>
+    <script src="/assets/plugins/DataTables/js/dataTables.bootstrap.js"></script>
+    
+    <!-- ================== BEGIN PAGE LEVEL JS ================== -->
+    <script src="/assets/js/apps.min.js"></script>
+    <!-- ================== END PAGE LEVEL JS ================== -->
+
+    <script>
+        $(document).ready(function() {
+            App.init();
+            $('#data-table').dataTable();
+        });
+    </script>
+</body>
+</html>

@@ -15,16 +15,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/accounts")
 public class AccountController {
 	
-	@Autowired
 	AccountService accountService;
 	
-	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@Autowired
+	public AccountController(AccountService accountService) {
+		this.accountService = accountService;
+	}
+
+	@RequestMapping(method = RequestMethod.GET)
 	public String getAccounts(Model model) {
 		Boolean isAuthenticated = !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);
 		if (isAuthenticated) {
-			Customer customer = (Customer) (SecurityContextHolder.getContext().getAuthentication());
-			model.addAttribute("accounts", customer.getId());
+			Customer customer = (Customer) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+			model.addAttribute("accounts", accountService.getAccounts(customer.getId()));
+			model.addAttribute("customer", customer);
 			return "accounts";
 		} else {
 			return "redirect:/login";
@@ -35,19 +39,23 @@ public class AccountController {
 	public String getAccountPayments(Model model) {
 		Boolean isAuthenticated = !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);
 		if (isAuthenticated) {
-			Customer customer = (Customer) (SecurityContextHolder.getContext().getAuthentication());
-			model.addAttribute("payments", accountService.getPaymentsByCustomer(customer.getId()));
-			return "payments";
+			Customer customer = (Customer) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+			model.addAttribute("paymentMap", accountService.getPaymentsByCustomer(customer.getId()));
+			model.addAttribute("customer", customer);
+			return "payments-history";
 		} else {
 			return "redirect:/login";
 		}
 	}
 	
-	@RequestMapping(value="/{accountNumber}/payments", method = RequestMethod.GET)
+	@RequestMapping(value = "/{accountNumber}/payments", method = RequestMethod.GET)
 	public String getAccountPaymentsByAccountNumber(@PathVariable String accountNumber, Model model) {
 		Boolean isAuthenticated = !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);
 		if (isAuthenticated) {
+			Customer customer = (Customer) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 			model.addAttribute("accountPayments", accountService.getPayments(accountNumber));
+			model.addAttribute("customer", customer);
+			model.addAttribute("accountNumber", accountNumber);
 			return "account-payments";
 		} else {
 			return "redirect:/login";
@@ -58,7 +66,10 @@ public class AccountController {
 	public String getBillSummaries(@PathVariable String accountNumber, Model model) {
 		Boolean isAuthenticated = !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);
 		if (isAuthenticated) {
+			Customer customer = (Customer) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+			model.addAttribute("customer", customer);
 			model.addAttribute("billSummaries", accountService.getBillSummaries(accountNumber));
+			model.addAttribute("accountNumber", accountNumber);
 			return "bill-history";
 		} else {
 			return "redirect:/login";
@@ -69,11 +80,39 @@ public class AccountController {
 	public String getAllBillSummaries(Model model) {
 		Boolean isAuthenticated = !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);
 		if (isAuthenticated) {
-			Customer customer = (Customer)SecurityContextHolder.getContext().getAuthentication();
-			model.addAttribute("billSummaries", accountService.getBillSummaries(customer.getId()));
+			Customer customer = (Customer) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+			model.addAttribute("customer", customer);
+			model.addAttribute("billSummariesMap", accountService.getBillSummaries(customer.getId()));
 			return "bill-history";
 		} else {
 			return "redirect:/login";
 		}
-	}	
+	}
+	
+	@RequestMapping(value = "/usage", method = RequestMethod.GET)
+	public String getUsageByCustomer(Model model) {
+		Boolean isAuthenticated = !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);
+		if (isAuthenticated) {
+			Customer customer = (Customer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			model.addAttribute("usageMap", accountService.getUsagesByCustomer(customer.getId()));
+			model.addAttribute("customer", customer);
+			return "usage-history";
+		} else {
+			return "redirect:/login";
+		}
+	}
+	
+	@RequestMapping(value = "/{accountNumber}/usage", method = RequestMethod.GET)
+	public String getUsageCustomer(@PathVariable String accountNumber, Model model) {
+		Boolean isAuthenticated = !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);
+		if (isAuthenticated) {
+			Customer customer = (Customer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			model.addAttribute("usages", accountService.getUsagesByAccount(accountNumber));
+			model.addAttribute("customer", customer);
+			model.addAttribute("accountNumber", accountNumber);
+			return "account-usage-history";
+		} else {
+			return "redirect:/login";
+		}
+	}
 }
