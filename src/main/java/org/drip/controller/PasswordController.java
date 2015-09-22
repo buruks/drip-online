@@ -39,7 +39,7 @@ public class PasswordController {
 	
 	@Autowired
 	MessageSource messageSource;
-	
+		
 	@RequestMapping(value="/forgot", method=RequestMethod.GET)
 	public String get(Model model) {
 		model.addAttribute("email", "");
@@ -49,7 +49,7 @@ public class PasswordController {
 	@RequestMapping(value = "/forgot", method = RequestMethod.POST)
 	public String sendLink(HttpServletRequest request, @ModelAttribute("email") String email, BindingResult result,
 	                       Model model, RedirectAttributes redirectAttributes) {
-		ValidationUtils.validateEmailString(email, result);
+		ValidationUtils.validateEmailString(email, result);		
 		if (!result.hasErrors()) {
 			ValidationUtils.validateEmailExists(email, userService, result);
 		}
@@ -91,7 +91,7 @@ public class PasswordController {
 	}
 	
 	@RequestMapping(value="/reset",method=RequestMethod.POST)
-	public String reset(@RequestParam("password") String password, @RequestParam("confirmPassword") String confirmPassword, @RequestParam("username") String username, Model model) {
+	public String reset(@RequestParam("password") String password, @RequestParam("confirmPassword") String confirmPassword, @RequestParam("username") String username, BindingResult result, Model model) {
 		if (StringUtils.isBlank(password)) {
 			model.addAttribute("passwordRequired", "password.required");
 			return "reset_forgot";
@@ -100,6 +100,13 @@ public class PasswordController {
 			model.addAttribute("passwordMatch", "password.match");
 			return "reset_forgot";
 		}
+		
+		ValidationUtils.validatePassword(password, result);
+		if(result.hasErrors()) {
+			model.addAttribute("passwordMatch", "password.invalid");
+			return "reset_forgot";
+		}
+		
 		if (passwordService.updatePassword(username, password)) {
 			return "redirect:/login";
 		} else {

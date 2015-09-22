@@ -7,7 +7,6 @@ import org.drip.model.Customer;
 import org.drip.services.CustomerService;
 import org.springframework.validation.Errors;
 
-
 public class ValidationUtils {
 	
 	public static void validateEmailString(String email, Errors errors) {
@@ -23,6 +22,17 @@ public class ValidationUtils {
 		Customer customer = service.getCustomer(email);
 		if (customer == null) {
 			errors.reject("email.match.error");
+		}
+	}
+	
+	public static void validatePassword(String password, Errors errors) {
+		Pattern pattern = null;
+		Matcher matcher;
+		final String PASSWORD_PATTERN = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})";
+		pattern = Pattern.compile(PASSWORD_PATTERN);
+		matcher = pattern.matcher(password);
+		if (!matcher.matches()) {
+			errors.reject("password.invalid");
 		}
 	}
 }
