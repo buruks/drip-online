@@ -18,13 +18,14 @@ import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.ReplacementDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
+import org.drip.AbstractDripTest;
 import org.drip.model.User;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-public class PasswordServiceTest extends AbstractServiceTest {
+public class PasswordServiceTest extends AbstractDripTest {
 	
 	@Autowired
 	PasswordService passwordService;

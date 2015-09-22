@@ -48,6 +48,10 @@ public class Account {
 	@OneToMany(fetch = FetchType.LAZY,  cascade = CascadeType.ALL, mappedBy= "account")
 	public List<Usage> usage;
 	
+	@ManyToOne
+	@JoinColumn(name = "premise_id")
+	private Premise premise;
+	
 	public int getId() {
 		return id;
 	}

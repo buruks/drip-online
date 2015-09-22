@@ -7,7 +7,9 @@
     <customers id="2" first_name="John" last_name="Doe" business_name="" email="john.doe@test.com" area_code="12345" phone_number="12345678" zip_code="123" registered="0" />
     <customers id="3" first_name="Jane" last_name="Doe" business_name="" email="jane.doe@test.com" area_code="123457" phone_number="1234567810" zip_code="123" user_id="2" registered="1" />
     
-    <account id="1" account_number="123456" customer_id="2" />
+    <premise premise_id="1" city="TEST CITY" state="TEST STATE" street="TEST STREET" zip_code="12345" />
+    
+    <account id="1" account_number="123456" customer_id="2" premise_id="1" />
     <account id="2" account_number="123457" customer_id="1" />
     <account id="3" account_number="123458" customer_id="2" />
     <account id="4" account_number="456789" customer_id="3" />

@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @EntityScan("org.drip.model")
 @EnableJpaRepositories(basePackages = "org.drip.repository", entityManagerFactoryRef = "entityManagerFactory", transactionManagerRef = "transactionManager")
-@ComponentScan(basePackages = { "org.drip.services" })
+@ComponentScan(basePackages = { "org.drip.services", "org.drip.repository" })
 public class TestConfig {
 	@Bean
 	public JavaMailSender javaMailSender() {
