@@ -7,10 +7,10 @@ import org.drip.model.BillSummary;
 import org.drip.model.Payment;
 import org.drip.model.Usage;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 
-public interface AccountRepository extends CrudRepository<Account, Long> {
+public interface AccountRepository extends Repository<Account, Long> {
 	
 	@Query("SELECT account FROM Account account WHERE account.customer.id =:id")
 	List<Account> findByCustomerId(@Param("id") Long customerId);

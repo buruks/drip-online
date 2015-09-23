@@ -5,15 +5,13 @@ import java.util.Date;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.transaction.Transactional;
 
 import org.drip.DripUtils;
 import org.drip.model.Customer;
 import org.drip.model.ResetHash;
 import org.drip.model.User;
-import org.drip.repository.HashRepository;
+import org.drip.repository.CustomerRepository;
 import org.drip.services.PasswordService;
-import org.drip.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -26,10 +24,7 @@ import org.thymeleaf.context.Context;
 public class PasswordServiceImpl implements PasswordService {
 	
 	@Autowired
-	HashRepository resetHashRepository;
-	
-	@Autowired
-	CustomerService customerService;
+	CustomerRepository customerRepository;
 	
 	@Autowired
 	private JavaMailSender mailSender;
@@ -39,7 +34,7 @@ public class PasswordServiceImpl implements PasswordService {
 	
 	@Override
 	public void sendResetLink(String email, String resetUrl) throws MessagingException, MailException {
-		Customer customer = customerService.getCustomer(email);		
+		Customer customer = customerRepository.findByEmail(email);		
 		final Context ctx = new Context();
 		ctx.setVariable("resetUrl", resetUrl);
 		ctx.setVariable("user", customer);
@@ -53,9 +48,9 @@ public class PasswordServiceImpl implements PasswordService {
 	}
 	
 	@Override
-	@Transactional
     public ResetHash saveHash(String email, String hash) {
-		User user = customerService.getCustomer(email).getUser();
+		Customer customer = customerRepository.findByEmail(email);
+		User user = customer.getUser();
 		ResetHash resetHash = user.getResetHash();
 		if (resetHash == null) {
 			resetHash = new ResetHash();
@@ -68,12 +63,12 @@ public class PasswordServiceImpl implements PasswordService {
 		resetHash.setExpireDate(calendar.getTime());
 		resetHash.setHash(hash);
 		resetHash.setUsed(false);
-		return resetHashRepository.save(resetHash);
+		return customerRepository.save(customer).getUser().getResetHash();
 	}
 
 	@Override
     public User getUserAssociatedWithHash(String hash) {
-		ResetHash resetHash = resetHashRepository.findByHash(hash);
+		ResetHash resetHash = customerRepository.findByUserResetHashHash(hash).getUser().getResetHash();
 	    if (!resetHash.getUsed() && new Date().before(resetHash.getExpireDate())) {
 	    	return resetHash.getUser();
 	    }
@@ -82,12 +77,12 @@ public class PasswordServiceImpl implements PasswordService {
 
 	@Override
     public Boolean updatePassword(String username, String newPassword) {
-		Customer customer = customerService.getCustomer(username);
+		Customer customer = customerRepository.findByEmail(username);
 	    User user = customer.getUser();
 	    String encodedPassword = DripUtils.encryptPassword(newPassword);
 	    user.setPassword(encodedPassword);
 	    user.getResetHash().setUsed(true);
-	    return customerService.saveCustomer(customer) != null;
+	    return customerRepository.save(customer) != null;
     }
 	
 }

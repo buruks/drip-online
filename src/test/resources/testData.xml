@@ -15,6 +15,7 @@
     <account id="4" account_number="456789" customer_id="3" />
     
     <reset_hash reset_hash_id="1" hash="d41d8cd98f00b204e9800998ecf8427e" expire_date="[expire_date]" user_id="1" used="0" />
+    <reset_hash reset_hash_id="2" hash="c70826f21f3d4db4a7b3e867613d144c" expire_date="2012-12-20" user_id="2" used="1" />
     
     <bill_summary id="1" bill_date="2012-12-20" current_amount="15.00"  amount_due="30.00" amount_paid="30.00" paid="1" account_id="1" />
     <bill_summary id="2" bill_date="2013-01-20" current_amount="15.00" amount_due="45.00" amount_paid="40.00" paid="0" account_id="1" />
