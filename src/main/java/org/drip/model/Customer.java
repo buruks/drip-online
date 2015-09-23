@@ -45,6 +45,9 @@ public class Customer {
 	@OneToMany(cascade = { CascadeType.ALL }, mappedBy = "customer")
 	private List<Account> accounts;
 	
+	@OneToMany(cascade = { CascadeType.ALL }, mappedBy = "customer")
+	private List<CustomerMessage> customerMessages;
+	
 	private Boolean registered;
 	
 	@OneToOne(cascade = { CascadeType.ALL })
@@ -142,6 +145,10 @@ public class Customer {
 	
 	public List<Account> getAccounts() {
 		return accounts;
+	}
+	
+	public List<CustomerMessage> getCustomerMessages() {
+		return customerMessages;
 	}
 	
 	public User getUser() {

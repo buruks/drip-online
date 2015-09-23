@@ -1,10 +1,13 @@
 package org.drip.controller;
 
 import org.drip.exceptions.CustomerAlreadyRegisteredException;
+import org.apache.commons.lang.StringUtils;
 import org.drip.model.Customer;
 import org.drip.services.CustomerService;
+import org.drip.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -17,6 +20,7 @@ import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -24,6 +28,9 @@ public class CustomerController {
 	
 	@Autowired
 	CustomerService customerService;
+	
+	@Autowired
+	EmailService emailService;
 	
 	@Autowired
 	@Qualifier("webUserValidator")
@@ -78,4 +85,35 @@ public class CustomerController {
 	public String error() {
 		return "error";
 	}
+	
+	@RequestMapping(value = "/contact-us", method = RequestMethod.GET)
+	public String displayContactUsPage(Model model) {
+		Boolean isAuthenticated = !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);
+		if (isAuthenticated) {
+			Customer customer = (Customer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			model.addAttribute("customer", customer);
+			return "contact-us";
+		} else {
+			return "redirect:/login";
+		}
+		
+	}
+	
+	@RequestMapping(value="/contact-us",method=RequestMethod.POST)
+	public String submitContactUsMessage(@RequestParam("message") String message, Model model) {
+		if (StringUtils.isBlank(message)) {
+			model.addAttribute("messageRequired", "message.required");
+			return "contact-us";
+		}
+		Customer customer = (Customer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		model.addAttribute("customer", customer);
+		if (emailService.sendMail(message, customer)) {
+			return "redirect:/accounts";
+		} else {
+			model.addAttribute("errorSaving", "error.saving");
+			return "contact-us";
+		}
+	}
+	
+	
 }
