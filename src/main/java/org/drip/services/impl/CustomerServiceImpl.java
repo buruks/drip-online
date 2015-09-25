@@ -1,12 +1,13 @@
 package org.drip.services.impl;
 
-import org.apache.commons.lang.StringUtils;
 import org.drip.DripUtils;
 import org.drip.controller.WebUser;
 import org.drip.exceptions.CustomerAlreadyRegisteredException;
 import org.drip.model.Customer;
+import org.drip.model.Premise;
 import org.drip.model.User;
 import org.drip.repository.CustomerRepository;
+import org.drip.repository.PremiseRepository;
 import org.drip.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,17 +18,8 @@ public class CustomerServiceImpl implements CustomerService {
 	@Autowired
 	private CustomerRepository customerRepository;
 	
-	@Override
-	public Customer getCustomer(String firstName, String lastName, String accountNumber, String areaCode,
-	                            String phoneNumber, String zipCode) {
-		return customerRepository.findCustomer(firstName, lastName, accountNumber, areaCode, phoneNumber, zipCode);
-	}
-	
-	@Override
-	public Customer getCustomer(String businessName, String accountNumber, String areaCode, String phoneNumber,
-	                            String zipCode) {
-		return customerRepository.findCustomer(businessName, accountNumber, areaCode, phoneNumber, zipCode);
-	}
+	@Autowired
+	private PremiseRepository premiseRepository; 
 	
 	@Override
 	public Customer getCustomer(String email) {
@@ -41,23 +33,29 @@ public class CustomerServiceImpl implements CustomerService {
 	
 	@Override
 	public Customer registerCustomer(WebUser webUser) {
-		Customer customer = null;
-		if (!StringUtils.isBlank(webUser.getFirstName()) && !StringUtils.isBlank(webUser.getLastName())) {
-			customer = getCustomer(webUser.getFirstName(), webUser.getLastName(), webUser.getAccountNumber(),
-			    webUser.getAreaCode(), webUser.getPhoneNumber(), webUser.getZipCode());
-		}
+		Customer customer = customerRepository.findByAccountsAccountNumber(webUser.getAccountNumber());
 		if (customer.isRegistered()) {
 			throw new CustomerAlreadyRegisteredException(webUser.getAccountNumber());
 		}
-		if (!StringUtils.isBlank(webUser.getBusinessName())) {
-			customer = getCustomer(webUser.getBusinessName(), webUser.getAccountNumber(), webUser.getAreaCode(),
-			    webUser.getPhoneNumber(), webUser.getZipCode());
+		Premise premise = premiseRepository.findByAccountsAccountNumber(webUser.getAccountNumber());
+		if (premise.addressMatches(webUser.getPremise())) {
+			customer.setEmail(webUser.getEmail());
+			String encodedPassword = DripUtils.encryptPassword(webUser.getPassword());
+			User user = new User(webUser.getEmail(),encodedPassword);
+			customer.setUser(user);
+			customer.setRegistered(true);
+			return customerRepository.save(customer);
 		}
-		customer.setEmail(webUser.getEmail());
-		String encodedPassword = DripUtils.encryptPassword(webUser.getPassword());
-		User user = new User(webUser.getEmail(), encodedPassword);
-		customer.setUser(user);
-		customer.setRegistered(true);
-		return customerRepository.save(customer);
+		return customer;
+	}
+
+	@Override
+	public Premise getCurrentPremise(String accountNumber) {
+		return premiseRepository.findByAccountsAccountNumber(accountNumber);
+	}
+
+	@Override
+	public Customer getCustomerByAccountNumber(String accountNumber) {
+		return customerRepository.findByAccountsAccountNumber(accountNumber);
 	}
 }

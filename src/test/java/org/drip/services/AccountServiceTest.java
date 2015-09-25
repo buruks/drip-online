@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 import java.util.Map;
 
+import org.drip.AbstractDripTest;
 import org.drip.model.Account;
 import org.drip.model.BillSummary;
 import org.drip.model.Payment;
@@ -12,7 +13,7 @@ import org.drip.model.Usage;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class AccountServiceTest extends AbstractServiceTest {
+public class AccountServiceTest extends AbstractDripTest {
 	
 	@Autowired
 	AccountService accountService;

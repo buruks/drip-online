@@ -90,15 +90,25 @@
                                 <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="alert alert-danger"></p>
                             </div>
                         </div>
-                        <label class="control-label">Phone Number</label>
+                        <label class="control-label">State</label>
                         <div class="row row-space-10">
                             <div class="col-md-6 m-b-15">
-                                <input type="text" class="form-control" th:field="*{areaCode}" placeholder="Phone Area Code" />
-                                <p th:if="${#fields.hasErrors('areaCode')}" th:errors="*{areaCode}" class="alert alert-danger"></p>
+                                <input type="text" class="form-control" th:field="*{state}" placeholder="State" />
+                                <p th:if="${#fields.hasErrors('state')}" th:errors="*{state}" class="alert alert-danger"></p>
                             </div>
+                        </div>
+                        <label class="control-label">City</label>
+                        <div class="row row-space-10">
                             <div class="col-md-6 m-b-15">
-                                <input type="text" class="form-control" th:field="*{phoneNumber}" placeholder="Phone Number" />
-                                <p th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="alert alert-danger"></p>
+                                <input type="text" class="form-control" th:field="*{city}" placeholder="City" />
+                                <p th:if="${#fields.hasErrors('city')}" th:errors="*{city}" class="alert alert-danger"></p>
+                            </div>
+                        </div>
+                        <label class="control-label">Street</label>
+                        <div class="row row-space-10">
+                            <div class="col-md-6 m-b-15">
+                                <input type="text" class="form-control" th:field="*{street}" placeholder="Street" />
+                                <p th:if="${#fields.hasErrors('street')}" th:errors="*{street}" class="alert alert-danger"></p>
                             </div>
                         </div>
                         <label class="control-label">Mail Zip Code</label>

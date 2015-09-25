@@ -1,4 +1,4 @@
-package org.drip.services;
+package org.drip;
 
 import java.io.FileInputStream;
 import java.util.Date;
@@ -30,7 +30,7 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class,
         TransactionalTestExecutionListener.class, DbUnitTestExecutionListener.class })
 @ContextConfiguration(classes = { TestConfig.class })
-public abstract class AbstractServiceTest {
+public abstract class AbstractDripTest {
 	
 	private IDatabaseTester databaseTester;
 	
