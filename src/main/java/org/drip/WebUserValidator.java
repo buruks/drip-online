@@ -17,7 +17,7 @@ import org.springframework.validation.Validator;
 public class WebUserValidator implements Validator {
 	
 	@Autowired
-	private CustomerService customerService; 
+	private CustomerService customerService;
 	
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -32,22 +32,25 @@ public class WebUserValidator implements Validator {
 		ValidationUtils.rejectIfEmpty(errors, "zipCode", "zipcode.required");
 		ValidationUtils.rejectIfEmpty(errors, "password", "password.required");
 		ValidationUtils.rejectIfEmpty(errors, "accountNumber", "accountnumber.required");
-		WebUser user = (WebUser)obj;
+		WebUser user = (WebUser) obj;
 		if (!StringUtils.isBlank(user.getEmail()) && !isValidEmailAddress(user.getEmail())) {
 			errors.rejectValue("email", "email.invalid");
 		}
-		if (!StringUtils.equals(user.getPassword(),user.getConfirmPassword())) {
+		if (!StringUtils.equals(user.getPassword(), user.getConfirmPassword()) && !isValidPassword(user.getPassword())) {
 			errors.rejectValue("password", "password.match");
 		}
-		if (StringUtils.isBlank(user.getFirstName()) && StringUtils.isBlank(user.getLastName()) && StringUtils.isBlank(user.getBusinessName())) {
+		if (StringUtils.isBlank(user.getFirstName()) && StringUtils.isBlank(user.getLastName())
+		        && StringUtils.isBlank(user.getBusinessName())) {
 			errors.reject("name.required");
 		}
 		if (!StringUtils.isBlank(user.getFirstName()) && !StringUtils.isBlank(user.getLastName())) {
-			Customer customer = customerService.getCustomer(user.getFirstName(), user.getLastName(), user.getAccountNumber(), user.getAreaCode(), user.getPhoneNumber(), user.getZipCode());
+			Customer customer = customerService.getCustomer(user.getFirstName(), user.getLastName(),
+			    user.getAccountNumber(), user.getAreaCode(), user.getPhoneNumber(), user.getZipCode());
 			validateCustomerInfo(errors, customer);
 		}
 		if (!StringUtils.isBlank(user.getBusinessName())) {
-			Customer customer = customerService.getCustomer(user.getBusinessName(), user.getAccountNumber(), user.getAreaCode(), user.getPhoneNumber(), user.getZipCode());
+			Customer customer = customerService.getCustomer(user.getBusinessName(), user.getAccountNumber(),
+			    user.getAreaCode(), user.getPhoneNumber(), user.getZipCode());
 			validateCustomerInfo(errors, customer);
 		}
 		if (!StringUtils.isBlank(user.getEmail())) {
@@ -58,22 +61,31 @@ public class WebUserValidator implements Validator {
 		}
 	}
 	
-    public void setUserService(CustomerService userService) {
-    	this.customerService = userService;
-    }
-
+	public void setUserService(CustomerService userService) {
+		this.customerService = userService;
+	}
+	
 	private void validateCustomerInfo(Errors errors, Customer customer) {
-	    if (customer == null) {
-	    	errors.reject("registration.details.invalid");
-	    } else if (customer.isRegistered()) {
-	    	errors.reject("registration.already.registered");
-	    }
-    }
+		if (customer == null) {
+			errors.reject("registration.details.invalid");
+		} else if (customer.isRegistered()) {
+			errors.reject("registration.already.registered");
+		}
+	}
 	
 	private Boolean isValidEmailAddress(String email) {
 		String regex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(email);
+		return matcher.matches();
+	}
+	
+	private Boolean isValidPassword(String password) {
+		Pattern pattern = null;
+		Matcher matcher;
+		final String PASSWORD_PATTERN = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})";
+		pattern = Pattern.compile(PASSWORD_PATTERN);
+		matcher = pattern.matcher(password);
 		return matcher.matches();
 	}
 	
