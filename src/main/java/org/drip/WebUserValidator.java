@@ -46,8 +46,6 @@ public class WebUserValidator implements Validator {
 			errors.reject("name.required");
 		}
 		
-		validatePremiseInfo(errors, user);
-		
 		if (!StringUtils.isBlank(user.getEmail())) {
 			Customer registeredCustomer = customerService.getCustomer(user.getEmail());
 			if (registeredCustomer != null && registeredCustomer.isRegistered()) {
@@ -60,6 +58,8 @@ public class WebUserValidator implements Validator {
 			errors.reject("registration.details.invalid");
 		} else if (customer.isRegistered()) {
 			errors.reject("registration.already.registered");
+		} else {			
+			validatePremiseInfo(errors, user);			
 		}
 	}
 	
