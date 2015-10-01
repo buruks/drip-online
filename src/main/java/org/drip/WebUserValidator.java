@@ -38,11 +38,8 @@ public class WebUserValidator implements Validator {
 		if (!StringUtils.isBlank(user.getEmail()) && !isValidEmailAddress(user.getEmail())) {
 			errors.rejectValue("email", "email.invalid");
 		}
-		if (!StringUtils.equals(user.getPassword(), user.getConfirmPassword())) {
+		if (!StringUtils.equals(user.getPassword(), user.getConfirmPassword()) && !isValidPassword(user.getPassword())) {
 			errors.rejectValue("password", "password.match");
-		}
-		if(!isValidPassword(user.getPassword())) {
-			errors.rejectValue("password", "password.invalid");
 		}
 		if (StringUtils.isBlank(user.getFirstName()) && StringUtils.isBlank(user.getLastName())
 		        && StringUtils.isBlank(user.getBusinessName())) {
