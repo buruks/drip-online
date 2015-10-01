@@ -6552,3 +6552,16 @@ body.flat-black {
 	font-size: 15px;
 	text-align:center;
 }
+.btn.btn-theme {
+	background: #00acac;
+	border-color: #00acac;
+	color: #fff;
+}
+.contact-info{
+	background: #687376 none repeat scroll 0% 0% !important;
+	font-size:13px;
+	margin-bottom: 10px !important;
+}
+.contact-msg{
+	margin-left:100px;
+}
